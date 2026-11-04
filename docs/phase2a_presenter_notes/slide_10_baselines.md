@@ -15,7 +15,7 @@
 
 > We compared two dummy baselines. Always predicting the majority tone scores 0.12, because it gets zero on four of the five tones. Random guessing scores 0.19 on validation, so the random one is our dummy benchmark.
 >
-> The trained baseline is TF-IDF on words and word pairs with logistic regression, using balanced class weights. It scores 0.34 public and 0.38 private, about double the dummy. Neutral is the hardest tone, with an F1 of only 0.13.
+> The trained baseline is TF-IDF on words and word pairs with logistic regression, using balanced class weights. It scores 0.339 public and 0.377 private, compared with 0.181 public and 0.139 private for the random dummy. Neutral is the hardest tone, with an F1 of only 0.13.
 
 ## Key facts
 

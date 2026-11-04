@@ -17,7 +17,7 @@ The talk must be 5 minutes or less. The times below add up to 4 min 55 s.
 | 9 | [How the Competition Works](slide_09_how_it_works.md) | 0:30 |
 | 10 | [Leaderboard Baselines](slide_10_baselines.md) | 0:30 |
 | 11 | [LLM Baseline](slide_11_llm_baseline.md) | 0:30 |
-| 12 | [Beat 0.38 Macro F1](slide_12_pitch.md) | 0:15 |
+| 12 | [Beat the 0.339 Benchmark](slide_12_pitch.md) | 0:15 |
 
 Slides 5 and 6 answer the assignment's request to explain how ground truth was computed and why, and to keep a list of the items annotators disagreed on.
 

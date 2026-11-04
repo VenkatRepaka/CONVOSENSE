@@ -20,7 +20,7 @@
 | Model | Macro F1 on the same 50 |
 | --- | ---: |
 | Majority | 0.118 |
-| Random, seed 16 | 0.14 |
+| Random, seed 16 | 0.142 |
 | Logistic regression | 0.300 |
 | GPT-5 zero-shot | 0.441 |
 

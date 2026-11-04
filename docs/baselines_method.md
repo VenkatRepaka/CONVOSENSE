@@ -139,18 +139,32 @@ Logistic regression F1 per tone:
 
 Neutral or informational is the weakest tone; its private F1 is 0. It has no strong cue words, and flat statements about a late order look a lot like complaints. Annotators confuse Neutral with Help-seeking and Frustrated too (see `docs/ground_truth_method.md`).
 
-## 9. Is 0.38 a good baseline?
+## 9. Is the logistic regression benchmark good enough?
 
-On a 0-to-1 scale, 0.396 on validation and 0.378 on test look low. For this task they are a reasonable reference point, and fine to put on the leaderboard.
+On a 0-to-1 scale, the logistic regression scores look low. For this task they are a reasonable reference point, and fine to put on the leaderboard.
+
+### Which number to quote
+
+Logistic regression has four scores, and they are used for different things:
+
+| Score | Value | Who sees it |
+| --- | ---: | --- |
+| Validation (train-only fit) | 0.396 | The team; used to choose the settings |
+| **Public leaderboard** | **0.339** | **Classmates, during the competition. This is the benchmark they compare against.** |
+| Private leaderboard | 0.377 | Everyone, at the Phase 2b deadline. It decides the final ranking. |
+| Full test, all 88 rows | 0.378 | Only the team. Kaggle never shows a full-test score. |
+
+"0.38" in earlier drafts was the full-test score, rounded. It is useful for comparing with the human estimate below, but it is not a number anyone sees on Kaggle. When talking to classmates, quote **0.339** as the number to beat, and mention 0.377 as the private benchmark for the final ranking.
 
 ### Reference points
 
 | Reference | Macro F1 |
 | --- | ---: |
 | Always predict Frustrated (majority) | 0.12 |
-| Random guessing (leaderboard dummy) | 0.19 |
-| **Logistic regression, validation** | **0.40** |
-| **Logistic regression, full test** | **0.38** |
+| Random guessing (leaderboard dummy), public / private | 0.181 / 0.139 |
+| **Logistic regression, public leaderboard** | **0.339** |
+| Logistic regression, private leaderboard | 0.377 |
+| Logistic regression, full test (0.378, rounded) | 0.38 |
 | LLM zero-shot, GPT-5 (50 test items; see `docs/steps_2_to_6.md`) | 0.44 |
 | **One annotator vs. the other annotators** (estimate below) | **~0.54** |
 
@@ -173,7 +187,7 @@ The labels themselves are noisy (Krippendorff's alpha 0.427), so even a person d
 | A6 | 30 | 0.511 | 0.633 |
 | **Mean** | | **0.537** | **0.649** |
 
-A careful human reaches about 0.54 macro F1. No model can reliably beat the consistency of the labels it is scored against, so a realistic ceiling is roughly 0.5–0.6, not 1.0. Logistic regression gets about 70% of the way there (0.378 ÷ 0.537).
+A careful human reaches about 0.54 macro F1. No model can reliably beat the consistency of the labels it is scored against, so a realistic ceiling is roughly 0.5–0.6, not 1.0. On the full test set, logistic regression gets about 70% of the way there (0.378 ÷ 0.537). On the public leaderboard alone it is 0.339, about 63%.
 
 Caveats:
 
@@ -230,14 +244,14 @@ for held_out in shared.columns:
 
 The assignment says the trained model "does not need to be a strong model; it is a reference point for everyone else." A useful benchmark:
 
-- clearly beats the dummy, which shows the task is learnable (0.38 vs. 0.19), and
-- leaves visible room for other teams (0.38 vs. about 0.54 for humans).
+- clearly beats the dummy, which shows the task is learnable (0.339 vs. 0.181 on the public leaderboard; 0.377 vs. 0.139 on the private one), and
+- leaves visible room for other teams (0.339 public vs. about 0.54 for humans).
 
-A very strong baseline would discourage submissions. The slide 12 pitch, "Beat 0.38 Macro F1", relies on that headroom.
+A very strong baseline would discourage submissions. The slide 12 pitch, "Beat the 0.339 Benchmark", relies on that headroom.
 
 Suggested wording for the talk:
 
-> Our logistic regression reaches 0.38 macro F1, twice the random dummy. For reference, a single annotator scores about 0.54 against the others, so labels this subjective cap what any model can reach. There's real room between 0.38 and human level for better models.
+> Our logistic regression benchmark scores 0.339 macro F1 on the public leaderboard, nearly twice the random dummy's 0.181. The final ranking uses the private leaderboard, where it scores 0.377. For reference, a single annotator scores about 0.54 against the others, so labels this subjective cap what any model can reach. There's real room between our benchmark and human level for better models.
 
 ## 10. Checks the script runs
 

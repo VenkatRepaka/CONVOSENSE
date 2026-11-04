@@ -245,7 +245,7 @@ Same 50 conversations, so the comparison uses one item set (`baselines/llm_sampl
 | Model | Macro F1 on the 50 |
 | --- | ---: |
 | Majority | 0.118 |
-| Random, seed 16 | 0.143 |
+| Random, seed 16 | 0.142 |
 | Logistic regression | 0.300 |
 | GPT-5, zero-shot | 0.441 |
 
