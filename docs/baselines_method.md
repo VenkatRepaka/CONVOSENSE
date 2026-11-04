@@ -151,7 +151,7 @@ On a 0-to-1 scale, 0.396 on validation and 0.378 on test look low. For this task
 | Random guessing (leaderboard dummy) | 0.19 |
 | **Logistic regression, validation** | **0.40** |
 | **Logistic regression, full test** | **0.38** |
-| LLM zero-shot (50 test items; first run, still to be redone) | 0.40 |
+| LLM zero-shot, GPT-5 (50 test items; see `docs/steps_2_to_6.md`) | 0.44 |
 | **One annotator vs. the other annotators** (estimate below) | **~0.54** |
 
 ### Human-level estimate

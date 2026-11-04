@@ -1,7 +1,10 @@
 {
-  "model": "Grok 4.7",
-  "how_sent": "Zero-shot. baselines/llm/prompt.txt was the whole instruction. baselines/llm/items.jsonl held 50 test conversations and no labels. The model read those two files in one pass and wrote baselines/llm/predictions.csv. No labeled conversation was included in the prompt.",
+  "model": "GPT-5 (ChatGPT web interface)",
+  "date": "2026-11-04",
+  "how_sent": "Zero-shot, manual. A new ChatGPT conversation got the text of baselines/llm/prompt.txt as the whole instruction and baselines/llm/items.jsonl (50 test conversations, no labels) in one message. No labeled conversation was included. The reply is saved unedited in baselines/llm/raw_responses.jsonl and converted to baselines/llm/predictions.csv.",
   "n_items": 50,
   "seed": 42,
+  "reproducibility": "Manual chat run. Temperature and the exact model snapshot are not visible in the ChatGPT interface, so a rerun may differ.",
+  "previous_run": "Grok 4.7, recorded in run_grok.json and predictions_grok.csv (macro F1 0.404).",
   "leaderboard": "Scored on 50 of 88 test conversations. This file is not a full-test leaderboard submission."
 }

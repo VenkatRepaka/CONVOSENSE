@@ -1,0 +1,7 @@
+{
+  "model": "Grok 4.7",
+  "how_sent": "Zero-shot. baselines/llm/prompt.txt was the whole instruction. baselines/llm/items.jsonl held 50 test conversations and no labels. The model read those two files in one pass and wrote baselines/llm/predictions.csv. No labeled conversation was included in the prompt.",
+  "n_items": 50,
+  "seed": 42,
+  "leaderboard": "Scored on 50 of 88 test conversations. This file is not a full-test leaderboard submission."
+}

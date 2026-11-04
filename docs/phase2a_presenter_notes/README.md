@@ -23,7 +23,7 @@ Slides 5 and 6 answer the assignment's request to explain how ground truth was c
 
 ## Before presenting
 
-- Re-run the LLM baseline in a fresh chat. Then update slide 11 and its notes file with the model name and score.
+- Open `docs/phase2a.pptx` in PowerPoint and check slide 11 (updated to the GPT-5 rerun, 0.44).
 - Have the Kaggle competition page open in a browser tab for slide 9.
 - Post the slides and the Kaggle invite link in `#project-competitions` on Discord before class.
 

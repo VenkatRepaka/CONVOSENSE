@@ -224,32 +224,32 @@ Neutral or informational is the weak class. Its private-leaderboard F1 is 0.
 
 ### LLM baseline
 
-**Choice.** Grok 4.7, zero-shot, on 50 of the 88 test conversations. This submission stays off the leaderboard.
+**Choice.** GPT-5 in the ChatGPT web interface, zero-shot, on 50 of the 88 test conversations. This submission stays off the leaderboard.
 
-**Why.** The assignment asks for a frontier model on at least 50 test items, with no labeled examples in the prompt, and says this run stays off the leaderboard unless every test item is included. There was no Gemini, OpenAI, or Anthropic API key in the environment, so the run used the model in this session.
+**Why.** The assignment asks for a frontier model on at least 50 test items, with no labeled examples in the prompt, and says this run stays off the leaderboard unless every test item is included. There was no API key in the environment, so the run was done by hand in a new ChatGPT conversation. An earlier run with Grok 4.7 read the files inside a coding session; it could not be verified and was replaced (kept as `baselines/llm/predictions_grok.csv` and `run_grok.json`, macro F1 0.404).
 
-**How it was sent.** `src/baselines/llm_baseline.py write` drew 50 test ids with seed 42 and wrote them to `baselines/llm/items.jsonl` with no labels. The instruction is `baselines/llm/prompt.txt`: the five tone definitions, the precedence order (Escalatory, Frustrated, Help-seeking, Appreciative, Neutral), and the output format. Worked examples from the annotation guidelines were excluded from the draw. None of those example ids are in the test set. Predictions are `baselines/llm/predictions.csv`. The run record is `baselines/llm/run.json`.
+**How it was sent.** `src/baselines/llm_baseline.py write` drew 50 test ids with seed 42 and wrote them to `baselines/llm/items.jsonl` with no labels. The instruction is `baselines/llm/prompt.txt`: the five tone definitions, the precedence order (Escalatory, Frustrated, Help-seeking, Appreciative, Neutral), and the output format. Worked examples from the annotation guidelines were excluded from the draw. None of those example ids are in the test set. The prompt text and all 50 items went in one message, with no labeled examples. The reply is saved unedited in `baselines/llm/raw_responses.jsonl` and converted to `baselines/llm/predictions.csv`. The run record is `baselines/llm/run.json`.
 
-**Output.** Macro F1 on those 50 items is **0.404**.
+**Output.** Macro F1 on those 50 items is **0.441**.
 
 | Tone | F1 on the 50 |
 | --- | ---: |
-| Appreciative or positive | 0.824 |
-| Neutral or informational | 0.133 |
+| Appreciative or positive | 0.667 |
+| Neutral or informational | 0.235 |
 | Help-seeking or asking a question | 0.308 |
-| Frustrated or complaining | 0.303 |
-| Escalatory or requesting immediate resolution | 0.455 |
+| Frustrated or complaining | 0.526 |
+| Escalatory or requesting immediate resolution | 0.471 |
 
 Same 50 conversations, so the comparison uses one item set (`baselines/llm_sample_comparison.csv`):
 
 | Model | Macro F1 on the 50 |
 | --- | ---: |
 | Majority | 0.118 |
-| Random, seed 16 | 0.142 |
+| Random, seed 16 | 0.143 |
 | Logistic regression | 0.300 |
-| Grok 4.7, zero-shot | 0.404 |
+| GPT-5, zero-shot | 0.441 |
 
-The zero-shot model is ahead of logistic regression on this sample and well below a perfect score. Appreciative or positive is the easy tone. Neutral or informational is hard for both the logistic regression and the LLM, which matches the imbalance found in step 4: the flat, factual tone is easy to miss when Frustrated or complaining is almost half the data.
+The zero-shot model is ahead of logistic regression on this sample and well below a perfect score. Appreciative or positive is the easy tone. Help-seeking is low partly because the model used that label for only 3 of the 50 conversations. Neutral or informational is hard for both the logistic regression and the LLM, which matches the imbalance found in step 4: the flat, factual tone is easy to miss when Frustrated or complaining is almost half the data.
 
 ## Commands
 
