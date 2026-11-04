@@ -22,7 +22,7 @@
 
 ## If asked
 
-- **Isn't one label per conversation risky?** Yes. That is a limitation: agreement is measured on 30 items, and the other 406 labels are not cross-checked. The agreement score is our estimate of how reliable those single labels are.
+- **Isn't one label per conversation risky?** Yes, that's a limitation. Krippendorff's alpha was 0.427 on the 30 conversations labeled by multiple annotators. The other 406 conversations each had one label, so we couldn't measure agreement on those items. The 30 shared conversations were also picked to be clear-cut and to cover all five tones evenly, so agreement on the rest could be lower.
 - **Why did the annotator IDs change?** We use folder names (`annotator_01` to `annotator_06`) because the `user_id` inside some files was a display name.
 
 [Previous](slide_02_task_and_data_point.md) | [Next](slide_04_agreement.md)

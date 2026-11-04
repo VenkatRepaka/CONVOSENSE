@@ -175,7 +175,7 @@ These alternatives would be estimated from only 30 shared conversations, so a mo
 
 ## 7. Limitations
 
-- **Most labels are single opinions.** 406 of 436 labels (93%) come from one annotator and were never cross-checked. Krippendorff's alpha (0.427, moderate) is our estimate of how reliable they are.
+- **Most labels are single opinions.** 406 of 436 labels (93%) come from one annotator and were never cross-checked. Krippendorff's alpha was 0.427 on the 30 conversations labeled by multiple annotators. The other 406 conversations each had one label, so we couldn't measure agreement on those items. Alpha describes the shared set only, and that set was not a random sample: `src/pipeline/make_overlap_annotator_packages.py` picked conversations that a rule-based checker rated as clear-cut, six per estimated tone. Agreement on the single-label conversations could be different, and possibly lower.
 - **Reliability means agreeing with the group.** A careful annotator who notices sarcasm the others miss would get a lower weight.
 - **Small sample.** Each weight rests on 26–30 items, so a few labels either way would shift it by a few hundredths.
 - **The weights are circular.** They come from the same 30 conversations they help decide, because those are the only conversations with overlap.

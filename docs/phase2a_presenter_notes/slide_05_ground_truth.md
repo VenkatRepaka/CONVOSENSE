@@ -44,7 +44,7 @@
 
 - **Why not adjudicate by hand?** We could, and the list of disagreements is ready (next slide). The weighted vote gives a label to every item without a team member choosing the outcome.
 - **Aren't the weights computed from the same 30 items?** Yes. That's the only overlap we have, and the weights only matter on those 30 items.
-- **Isn't trusting one annotator for 406 items risky?** It's a limitation. Alpha of 0.43 is our estimate of how reliable those single labels are.
+- **Isn't trusting one annotator for 406 items risky?** It's a limitation. Krippendorff's alpha was 0.427 on the 30 conversations labeled by multiple annotators. The other 406 conversations each had one label, so we couldn't measure agreement on those items. The shared 30 were chosen as clear-cut cases, so agreement on the single-label conversations could be lower.
 - **Do the weights change much?** No. They range from 0.35 to 0.48, so in practice they act as a principled tie-breaker.
 - **Would majority vote give the same leaderboard?** Not exactly. With the current split, the test answer key is identical, so any fixed submission scores the same. But the baselines pick their settings on validation and are refit on train plus validation. Giving the two ties the other label moved the logistic regression to 0.357 public / 0.348 private (from 0.339 / 0.377). Building the split from majority-vote labels from the start would also have produced a different test set.
 
