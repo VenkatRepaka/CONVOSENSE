@@ -4,6 +4,8 @@ Record of the choices, why each one was made, and the numbers the scripts produc
 
 Paste text for the public Kaggle page is in `competition/kaggle_page.md`. This file is the team record. The answer key in `competition/private/` stays off the participant Data tab, git, Drive, and Discord.
 
+Every file with a label per conversation is gitignored, because each one covers the test conversations too: `annotation_submissions/`, `annotator_packages_overlap/shared_items.jsonl` (its heuristic `estimated_label`), `outputs/ground_truth_majority_vote.csv`, `outputs/ground_truth_weighted_vote.csv`, and `outputs/adjudication_disagreements.csv`. They exist only on the team's machines. Share them inside the team privately, never through the repository. The other files in `outputs/` hold counts and scores only and stay in git.
+
 The task label is the primary Potato field `conversation_sense`. Optional `secondary_sense` is not a vote. The annotator id is the submission folder name (`annotator_01` through `annotator_06`), because `user_id` in the JSONL is a display name for some classmates. Each folder contains the same JSONL twice. The loader reads `annotation_submissions/annotator_*/annotations.jsonl` only.
 
 Six annotators submitted 582 labels on 436 conversations. 406 conversations have one annotator. 30 were shared: 26 by all six annotators, and 4 without `annotator_05` (82 of 100 items). On the shared set, 5 conversations are unanimous and 25 are not.

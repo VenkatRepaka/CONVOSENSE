@@ -90,7 +90,7 @@ id,label
 
 This competition is for ARI 410/510 only. Predictions must come from a model. Labeling the test set by hand is not allowed.
 
-You may train on `train.csv` and `validation.csv`, and you may use pretrained models and other publicly available text. Training on the test conversations, or using their labels, is outside these rules.
+You may train on `train.csv` and `validation.csv`, and you may use pretrained models and other publicly available text. Training on the test conversations, or using their labels, is outside these rules. So is using any tone label for a test conversation from outside this competition's files, such as an annotation from this course.
 
 When you join, set your Kaggle team name so it includes your project team's name. Kaggle does not show hosts the email address on a submission.
 
@@ -118,7 +118,7 @@ Upload map:
 | Data tab, and the sample-submission slot | `competition/participant/sample_submission.csv` |
 | Solution / answer key only | `competition/private/solution.csv` |
 
-Leave `competition/private/` off the Data tab. That folder is gitignored.
+Leave `competition/private/` off the Data tab. That folder is gitignored, and so are the raw annotations and the per-conversation ground-truth CSVs in `outputs/`, because they contain the test labels too.
 
 Before launching, submit `competition/private/perfect_submission.csv` and expect a score of 1 on both leaderboards. Then submit `sample_submission.csv`. The scores to expect are written in `competition/private/score_check.txt` when the script runs. Showing three decimal places on the leaderboard is enough.
 

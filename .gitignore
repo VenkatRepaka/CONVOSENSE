@@ -242,3 +242,9 @@ potato/annotation_output/
 
 # Kaggle answer key for step 5. Upload these files on the host page only.
 competition/private/
+# Per-conversation labels. They include the test labels, so they stay local.
+annotation_submissions/
+annotator_packages_overlap/shared_items.jsonl
+outputs/ground_truth_majority_vote.csv
+outputs/ground_truth_weighted_vote.csv
+outputs/adjudication_disagreements.csv
