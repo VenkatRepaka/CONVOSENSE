@@ -124,7 +124,7 @@ Before launching, submit `competition/private/perfect_submission.csv` and expect
 
 Per-class counts, including both leaderboard halves, are in `competition/private/split_summary.csv`. The smallest tone has 5 conversations on each leaderboard.
 
-The two conversations majority vote leaves tied, `1003675` and `1257160`, both landed in `validation.csv`. Train and test labels are the same under majority vote and the weighted vote. The weighted labels are the ones in the files.
+The two conversations majority vote leaves tied, `1003675` and `1257160`, both landed in `validation.csv`, so `solution.csv` does not depend on how they are resolved. The weighted labels are the ones in the files. Do not rebuild the split after launch: the split is stratified by label, so any label change produces a different test set.
 
 After the perfect-score check, submit these two files and mark each as a Benchmark:
 

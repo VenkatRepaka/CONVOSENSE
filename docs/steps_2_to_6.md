@@ -21,6 +21,8 @@ Six annotators submitted 582 labels on 436 conversations. 406 conversations have
 | Fleiss' kappa | `statsmodels.stats.inter_rater.fleiss_kappa` | Conversations labeled by every annotator. That implementation requires the same rater count on every row |
 | Krippendorff's alpha | `simpledorff`, nominal metric | All 30 shared conversations. Missing labels stay missing |
 
+**Main metric.** Krippendorff's alpha (0.427) is the agreement figure the team reports. It works for more than two annotators and nominal labels, corrects for chance, and keeps the 4 shared conversations `annotator_05` skipped. Fleiss' kappa drops those conversations, Cohen's kappa scores only one pair at a time, and percentage agreement does not correct for chance. The other two chance-corrected scores fall within 0.02 of alpha.
+
 **Why.** A conversation with one label cannot show agreement, so the 406 singly labeled rows are left out. Fleiss drops the 4 shared conversations `annotator_05` skipped. Alpha keeps them, which is the missing-data case that metric is for. Cohen's kappa and percentage agreement in the summary are the unweighted mean of the 15 pairs. Pairs have 26 or 30 conversations.
 
 The script is `src/annotation_analysis/agreement.py`, run through `src/annotation_analysis/determine_ground_truth.py`.
@@ -39,6 +41,8 @@ The highest pair is annotator 05 and annotator 06: Cohen's kappa 0.755 on 26 con
 `outputs/annotator_agreement_summary.csv` holds the four scores. `outputs/pairwise_annotator_agreement.csv` holds every pair. `outputs/annotator_agreement.png` is the summary bars plus the pairwise Cohen heatmap.
 
 ## Step 3. Ground truth
+
+A step-by-step explanation, with worked examples, is in `docs/ground_truth_method.md`.
 
 **Choice.** Two labelings, both written out. Neither breaks a tie by alphabetical order.
 
@@ -110,7 +114,7 @@ Frustrated or complaining is almost four times the smallest class. The classes a
 
 **Choice.** Reliability-weighted vote, from `outputs/ground_truth_weighted_vote.csv`.
 
-**Why.** A competition row needs one label. The weighted vote assigns a tone to all 436 annotated conversations. Majority vote leaves two ties unlabeled: `1003675` and `1257160`. Both of those conversations fell in the validation split, so the train labels and the test labels are the same under either vote. The files use the weighted labels.
+**Why.** A competition row needs one label. The weighted vote assigns a tone to all 436 annotated conversations. Majority vote leaves two ties unlabeled: `1003675` and `1257160`. With the split built from the weighted labels, both of those conversations fell in validation, so the test answer key does not depend on how the two ties are resolved. Validation is still used to tune and refit the baselines, so the tie labels can shift baseline scores slightly, and a split built from majority-vote labels would be a different split. `docs/ground_truth_method.md` has the numbers. The files use the weighted labels.
 
 ### Split
 
@@ -158,6 +162,8 @@ A label in a submission has to match one of the five tone strings exactly. On Ka
 **Check.** Submitting `perfect_submission.csv` scores 1 on the public and private leaderboards. Submitting `sample_submission.csv` scores 0.125 public and 0.121 private (`competition/private/score_check.txt` records the private score as 0.1206).
 
 ## Step 6. Baselines
+
+A step-by-step explanation of the dummy and trained baselines is in `docs/baselines_method.md`.
 
 All scores below are macro F1 from the competition scorer. Full-test numbers are in `baselines/baseline_scores.csv`. Per-class F1 is in `baselines/per_class_f1.csv`.
 
