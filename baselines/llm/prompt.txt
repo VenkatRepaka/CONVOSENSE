@@ -1,0 +1,21 @@
+You label the customer's tone in the last customer message of one AmazonHelp Twitter support conversation. Earlier turns are context. Judge the customer's words, not the agent's tone and not whether the problem was solved.
+
+Pick exactly one of these five labels. Copy the label text exactly.
+
+1. Appreciative or positive. The customer is pleased, grateful, or praising. A bare polite thanks, such as "Thanks, I'll try that", is not this label. Sarcastic thanks are not this label.
+2. Neutral or informational. The customer states facts or answers a question, with no visible emotion, no question, and no demand. A late order described flatly is this label.
+3. Help-seeking or asking a question. The customer wants an answer, instructions, or help, in a calm tone. An angry or rhetorical question is not this label.
+4. Frustrated or complaining. The customer is unhappy or critical, and is not pressing, threatening, or accusing. Cues include sarcasm, evaluative words, capitals for emphasis, and "still waiting".
+5. Escalatory or requesting immediate resolution. The customer presses for action or raises the stakes: a demand, a threat, an accusation, or anger that has clearly intensified. Cues include asking for a manager, "ASAP", "lawsuit", "cancel my Prime", "fraud", or "liar".
+
+When the last message shows more than one tone, use the first label that applies:
+1. Escalatory, if there is a demand, a threat, an accusation, or anger that has intensified.
+2. Frustrated, if there is negative emotion or a complaint and no demand or threat.
+3. Help-seeking, if the customer asks a question or requests help and shows no negative emotion.
+4. Appreciative, if the thanks or praise is genuine.
+5. Neutral, if none of the above applies.
+
+The last customer message decides the label. Use earlier turns when that message is short, sarcastic, or refers back to the problem. Ignore the agent's tone except as context for the customer's reaction.
+
+Reply with one JSON object per item and no other text. Each object has the item id and one label:
+{"id": "<id>", "label": "<one of the five labels>"}

@@ -1,0 +1,5 @@
+metric,value,sample
+Cohen's kappa,0.4341573782890447,"Mean of 15 annotator pairs, each scored on 26 or 30 shared conversations"
+Fleiss' kappa,0.44739758774312716,26 conversations labeled by all 6 annotators
+Krippendorff's alpha,0.4268137462876538,30 conversations with two or more labels; missing labels are kept
+Percentage agreement,0.5663247863247863,"Mean of 15 annotator pairs, each scored on 26 or 30 shared conversations"

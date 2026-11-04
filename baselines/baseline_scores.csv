@@ -1,0 +1,19 @@
+model,split,macro_f1,notes
+majority,validation,0.1216,"Always predicts the most common training label, Frustrated or complaining. sklearn DummyClassifier(strategy='most_frequent')."
+majority,test,0.12283464566929134,"Always predicts the most common training label, Frustrated or complaining. sklearn DummyClassifier(strategy='most_frequent')."
+majority,public,0.125,"Always predicts the most common training label, Frustrated or complaining. sklearn DummyClassifier(strategy='most_frequent')."
+majority,private,0.12063492063492062,"Always predicts the most common training label, Frustrated or complaining. sklearn DummyClassifier(strategy='most_frequent')."
+random,validation,0.19327896613190734,"Uniform draw over the five tones. DummyClassifier(strategy='uniform', random_state=16). This seed is the one whose validation score is closest to the mean of seeds 0 to 19."
+random,test,0.15956917592211708,"Uniform draw over the five tones. DummyClassifier(strategy='uniform', random_state=16). This seed is the one whose validation score is closest to the mean of seeds 0 to 19."
+random,public,0.18076923076923077,"Uniform draw over the five tones. DummyClassifier(strategy='uniform', random_state=16). This seed is the one whose validation score is closest to the mean of seeds 0 to 19."
+random,private,0.13931623931623932,"Uniform draw over the five tones. DummyClassifier(strategy='uniform', random_state=16). This seed is the one whose validation score is closest to the mean of seeds 0 to 19."
+random_mean,validation,0.19352499599228656,Mean macro F1 of 20 uniform seeds (0 to 19).
+random_mean,test,0.1673759562341542,Mean macro F1 of 20 uniform seeds (0 to 19).
+dummy_selected,validation,0.19327896613190734,"The dummy uploaded to the leaderboard. Same predictions as random, seed 16."
+dummy_selected,test,0.15956917592211708,"The dummy uploaded to the leaderboard. Same predictions as random, seed 16."
+dummy_selected,public,0.18076923076923077,"The dummy uploaded to the leaderboard. Same predictions as random, seed 16."
+dummy_selected,private,0.13931623931623932,"The dummy uploaded to the leaderboard. Same predictions as random, seed 16."
+logistic_regression,validation,0.3962881562881563,"Word and bigram TF-IDF on the last customer message and on the full conversation, then logistic regression. Selected on validation: C=0.25, class_weight=balanced. The validation score is the train-only fit. The test score is the submission refit on train and validation."
+logistic_regression,test,0.37764512009228357,"Word and bigram TF-IDF on the last customer message and on the full conversation, then logistic regression. Selected on validation: C=0.25, class_weight=balanced. The validation score is the train-only fit. The test score is the submission refit on train and validation."
+logistic_regression,public,0.3391596638655462,"Word and bigram TF-IDF on the last customer message and on the full conversation, then logistic regression. Selected on validation: C=0.25, class_weight=balanced. The validation score is the train-only fit. The test score is the submission refit on train and validation."
+logistic_regression,private,0.3769015298427063,"Word and bigram TF-IDF on the last customer message and on the full conversation, then logistic regression. Selected on validation: C=0.25, class_weight=balanced. The validation score is the train-only fit. The test score is the submission refit on train and validation."

@@ -1,0 +1,7 @@
+{
+  "n_items": 50,
+  "seed": 42,
+  "excluded_guideline_example_ids_in_test": [],
+  "prompt_file": "prompt.txt",
+  "items_file": "items.jsonl"
+}

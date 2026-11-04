@@ -239,3 +239,6 @@ annotator_packages_overlap/*.zip
 potato/project.sqlite*
 potato/annotation_output/
 *~$**.*
+
+# Kaggle answer key for step 5. Upload these files on the host page only.
+competition/private/
