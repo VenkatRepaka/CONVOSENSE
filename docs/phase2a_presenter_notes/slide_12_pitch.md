@@ -26,6 +26,6 @@
 ## If asked
 
 - **Why are public and private different?** Each half has only 44 conversations, and a rare tone has 5 or 6 rows per half, so one prediction can move a tone's F1 a lot.
-- **What's realistic?** One annotator scored against the others gets about 0.54 macro F1 (see `docs/baselines_method.md`, section 9), so that's roughly the ceiling for labels this subjective.
+- **What's realistic?** On the 30 shared conversations, annotators averaged 0.537 macro F1 against the weighted consensus of the other annotators. Logistic regression was evaluated on a different set of 88 test conversations, so these scores aren't a direct human–model comparison. It shows the labels are subjective, not a limit on models. For a same-items comparison: on 50 test conversations, GPT-5 zero-shot scores 0.44 and logistic regression 0.30. (See `docs/baselines_method.md`, section 9.)
 
 [Previous](slide_11_llm_baseline.md) | [Back to index](README.md)

@@ -154,7 +154,7 @@ Logistic regression has four scores, and they are used for different things:
 | Private leaderboard | 0.377 | Everyone, at the Phase 2b deadline. It decides the final ranking. |
 | Full test, all 88 rows | 0.378 | Only the team. Kaggle never shows a full-test score. |
 
-"0.38" in earlier drafts was the full-test score, rounded. It is useful for comparing with the human estimate below, but it is not a number anyone sees on Kaggle. When talking to classmates, quote **0.339** as the number to beat, and mention 0.377 as the private benchmark for the final ranking.
+"0.38" in earlier drafts was the full-test score, rounded. It is not a number anyone sees on Kaggle. When talking to classmates, quote **0.339** as the number to beat, and mention 0.377 as the private benchmark for the final ranking.
 
 ### Reference points
 
@@ -166,11 +166,12 @@ Logistic regression has four scores, and they are used for different things:
 | Logistic regression, private leaderboard | 0.377 |
 | Logistic regression, full test (0.378, rounded) | 0.38 |
 | LLM zero-shot, GPT-5 (50 test items; see `docs/steps_2_to_6.md`) | 0.44 |
-| **One annotator vs. the other annotators** (estimate below) | **~0.54** |
 
-### Human-level estimate
+All of these are scored on test or validation conversations. The annotator result below is on a different set, so it is kept out of this table.
 
-The labels themselves are noisy (Krippendorff's alpha 0.427), so even a person does not score near 1.0. To estimate how well a single human does, each annotator was scored against the other annotators on the 30 shared conversations:
+### How annotators score against each other
+
+The labels themselves are noisy (Krippendorff's alpha 0.427 on the shared conversations), so annotators don't agree perfectly with each other either. To see how consistent individual annotators are, each one was scored against the other annotators on the 30 shared conversations:
 
 1. Hold out one annotator.
 2. Label each shared conversation with the reliability-weighted vote of the remaining annotators (weights from `outputs/annotator_reliability_weights.csv`).
@@ -187,13 +188,15 @@ The labels themselves are noisy (Krippendorff's alpha 0.427), so even a person d
 | A6 | 30 | 0.511 | 0.633 |
 | **Mean** | | **0.537** | **0.649** |
 
-A careful human reaches about 0.54 macro F1. No model can reliably beat the consistency of the labels it is scored against, so a realistic ceiling is roughly 0.5–0.6, not 1.0. On the full test set, logistic regression gets about 70% of the way there (0.378 ÷ 0.537). On the public leaderboard alone it is 0.339, about 63%.
+On the 30 shared conversations, annotators averaged 0.537 macro F1 against the weighted consensus of the other annotators. Logistic regression was evaluated on a different set of 88 test conversations, so these scores aren't a direct human–model comparison.
+
+This result shows the labels are subjective. It is not an upper limit for models. A model is scored against a consensus label, which is less noisy than any single annotator, so a model could score higher than an individual annotator does.
 
 Caveats:
 
-- The estimate rests on only 30 conversations, and the per-annotator scores range from 0.44 to 0.71, so treat ~0.54 as rough.
+- The result rests on only 30 conversations, and the per-annotator scores range from 0.437 to 0.711, so treat 0.537 as rough.
+- The 30 shared conversations were not a random sample. `src/pipeline/make_overlap_annotator_packages.py` picked cases a rule-based checker rated as clear-cut, six per estimated tone. Annotators may agree less on the rest of the data.
 - The weights come from all six annotators, including the one held out. A strict version would recompute the weights without them. Weights only matter on ties, so the effect is small.
-- It compares humans on the 30 shared conversations, while the models are scored on 88 test conversations. The two numbers are a guide, not a like-for-like comparison.
 - This number is not produced by any script yet. To regenerate it, run the snippet below from the repository root. It needs the local `annotation_submissions/` folder, which is not in git.
 
 ```python
@@ -245,13 +248,13 @@ for held_out in shared.columns:
 The assignment says the trained model "does not need to be a strong model; it is a reference point for everyone else." A useful benchmark:
 
 - clearly beats the dummy, which shows the task is learnable (0.339 vs. 0.181 on the public leaderboard; 0.377 vs. 0.139 on the private one), and
-- leaves visible room for other teams (0.339 public vs. about 0.54 for humans).
+- leaves visible room for other teams. On the same 50 test conversations, GPT-5 zero-shot scores 0.44 and logistic regression scores 0.30, so a stronger model already does better.
 
 A very strong baseline would discourage submissions. The slide 12 pitch, "Beat the 0.339 Benchmark", relies on that headroom.
 
 Suggested wording for the talk:
 
-> Our logistic regression benchmark scores 0.339 macro F1 on the public leaderboard, nearly twice the random dummy's 0.181. The final ranking uses the private leaderboard, where it scores 0.377. For reference, a single annotator scores about 0.54 against the others, so labels this subjective cap what any model can reach. There's real room between our benchmark and human level for better models.
+> Our logistic regression benchmark scores 0.339 macro F1 on the public leaderboard, nearly twice the random dummy's 0.181. The final ranking uses the private leaderboard, where it scores 0.377. The labels are subjective: on our 30 shared conversations, annotators averaged 0.537 against each other's consensus. On the same 50 test conversations, GPT-5 zero-shot already beats logistic regression, 0.44 to 0.30, so there's room for better models.
 
 ## 10. Checks the script runs
 
