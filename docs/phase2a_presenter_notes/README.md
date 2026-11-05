@@ -9,21 +9,21 @@ The talk must be 5 minutes or less. The times below add up to 4 min 55 s.
 | 1 | [Title](slide_01_title.md) | 0:10 |
 | 2 | [The Task and One Data Point](slide_02_task_and_data_point.md) | 0:30 |
 | 3 | [Annotation Process](slide_03_annotation_process.md) | 0:25 |
-| 4 | [Krippendorff's Alpha: Moderate Agreement](slide_04_agreement.md) | 0:30 |
+| 4 | [Krippendorff's Alpha: Moderate Agreement (0.43)](slide_04_agreement.md) | 0:30 |
 | 5 | [Ground Truth: Reliability-Weighted Vote](slide_05_ground_truth.md) | 0:35 |
 | 6 | [Where Annotators Disagreed](slide_06_disagreements.md) | 0:20 |
 | 7 | [The Classes Are Imbalanced](slide_07_label_distribution.md) | 0:20 |
 | 8 | [Competition Data: Stratified Split](slide_08_competition_data.md) | 0:20 |
 | 9 | [How the Competition Works](slide_09_how_it_works.md) | 0:30 |
 | 10 | [Leaderboard Baselines](slide_10_baselines.md) | 0:30 |
-| 11 | [LLM Baseline](slide_11_llm_baseline.md) | 0:30 |
-| 12 | [Beat the 0.339 Benchmark](slide_12_pitch.md) | 0:15 |
+| 11 | [LLM Baseline: GPT-5 Zero-Shot](slide_11_llm_baseline.md) | 0:30 |
+| 12 | [Beat the 0.398 Benchmark](slide_12_pitch.md) | 0:15 |
 
 Slides 5 and 6 answer the assignment's request to explain how ground truth was computed and why, and to keep a list of the items annotators disagreed on.
 
 ## Before presenting
 
-- Open `docs/phase2a.pptx` in PowerPoint and check slide 11 (updated to the GPT-5 rerun, 0.44).
+- Open `docs/phase2a.pptx` in PowerPoint. The notes and the deck use the seven-annotator numbers.
 - Have the Kaggle competition page open in a browser tab for slide 9.
 - Post the slides and the Kaggle invite link in `#project-competitions` on Discord before class.
 

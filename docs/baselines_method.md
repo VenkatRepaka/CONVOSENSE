@@ -20,10 +20,10 @@ Code: `src/baselines/train_baselines.py`. Run it from the repository root after 
 
 | File | Rows | Used for |
 | --- | ---: | --- |
-| `competition/participant/train.csv` | 261 | Fitting every model |
-| `competition/participant/validation.csv` | 87 | Choosing the dummy, the random seed and the logistic regression settings, then refitting the final model |
-| `competition/participant/test.csv` | 88 | Making the submission files (no labels) |
-| `competition/private/solution.csv` | 88 | Reporting test, public and private scores only |
+| `competition/participant/train.csv` | 302 | Fitting every model |
+| `competition/participant/validation.csv` | 103 | Choosing the dummy, the random seed and the logistic regression settings, then refitting the final model |
+| `competition/participant/test.csv` | 101 | Making the submission files (no labels) |
+| `competition/private/solution.csv` | 101 | Reporting test, public and private scores only |
 
 **Rule:** every choice is made on validation. The test labels are read only to report scores, never to pick a setting. They are not written into any output, and the submission files contain only `id` and `label`.
 
@@ -35,15 +35,15 @@ Public and private scores use the rows of `solution.csv` marked `Usage = Public`
 
 ## 4. Majority baseline
 
-**How:** find the most common tone in `train.csv` and predict it for every row. That tone is Frustrated or complaining, with 114 of 261 training rows. If two tones were tied, the code would pick the one that comes first in the guideline order. That didn't happen.
+**How:** find the most common tone in `train.csv` and predict it for every row. That tone is Frustrated or complaining, with 130 of 302 training rows. If two tones were tied, the code would pick the one that comes first in the guideline order. That didn't happen.
 
 The code writes the constant label directly. This gives the same output as `sklearn.dummy.DummyClassifier(strategy="most_frequent")`, which is the name used in the notes column of `baselines/baseline_scores.csv`.
 
 **Why it scores so low:** it gets every Frustrated row right and every other row wrong.
 
-- Frustrated: recall 1.0 and precision 39/88 = 0.443 on the full test set, so F1 = 0.614.
+- Frustrated: recall 1.0 and precision 43/101 = 0.426 on the full test set, so F1 = 0.597.
 - The other four tones: F1 = 0.
-- Macro F1 = 0.614 ÷ 5 = **0.123**.
+- Macro F1 = 0.597 ÷ 5 = **0.119**.
 
 `competition/submissions/majority_baseline.csv` is identical to `competition/participant/sample_submission.csv`. The script checks this.
 
@@ -51,13 +51,13 @@ The code writes the constant label directly. This gives the same output as `skle
 
 **How:** `sklearn.dummy.DummyClassifier(strategy="uniform", random_state=seed)` picks one of the five tones with equal probability for every row. It ignores the text. It is fitted on the training labels only so it knows the five class names.
 
-**Which seed:** a single random draw is noisy on 87 validation rows. Across seeds 0–19, validation macro F1 ranges from 0.137 to 0.274. To avoid reporting a lucky or unlucky draw:
+**Which seed:** a single random draw is noisy on 103 validation rows. Across seeds 0–19, validation macro F1 ranges from 0.142 to 0.281. To avoid reporting a lucky or unlucky draw:
 
-1. Score seeds 0 to 19 on validation. The mean is 0.194.
+1. Score seeds 0 to 19 on validation. The mean is 0.196.
 2. Pick the seed whose validation score is closest to that mean. If two were equally close, the lower seed would win.
-3. The result is **seed 16**, with a validation score of 0.193.
+3. The result is **seed 3**, with a validation score of 0.191.
 
-The seed is picked from validation scores only. The script also records each seed's test score (mean 0.167, range 0.116 to 0.266), but those scores play no part in the choice. Seed 16's test score is 0.160, close to the test mean.
+The seed is picked from validation scores only. The script also records each seed's test score (mean 0.193, range 0.103 to 0.303), but those scores play no part in the choice. Seed 3's test score is 0.208, close to the test mean.
 
 All 20 seeds are in `baselines/random_baseline_seeds.csv`.
 
@@ -67,10 +67,10 @@ The assignment says to keep whichever dummy does better. The comparison uses val
 
 | Dummy | Validation macro F1 |
 | --- | ---: |
-| Majority | 0.122 |
-| Random, mean of seeds 0–19 | 0.194 |
+| Majority | 0.120 |
+| Random, mean of seeds 0–19 | 0.196 |
 
-**Random wins.** Under macro F1, majority gets zero on four of the five tones, while uniform guessing gets a little right on every tone. The leaderboard dummy, `dummy_baseline.csv`, contains seed 16's predictions.
+**Random wins.** Under macro F1, majority gets zero on four of the five tones, while uniform guessing gets a little right on every tone. The leaderboard dummy, `dummy_baseline.csv`, contains seed 3's predictions.
 
 ## 7. Trained baseline: TF-IDF + logistic regression
 
@@ -97,47 +97,49 @@ The script fits on `train.csv` and scores on `validation.csv` for six combinatio
 
 | C | class_weight | Validation macro F1 |
 | ---: | --- | ---: |
-| **0.25** | **balanced** | **0.396** |
+| **0.25** | **balanced** | **0.330** |
 | 4.0 | balanced | 0.328 |
-| 1.0 | balanced | 0.311 |
-| 4.0 | none | 0.209 |
-| 1.0 | none | 0.159 |
-| 0.25 | none | 0.122 |
+| 1.0 | balanced | 0.315 |
+| 4.0 | none | 0.217 |
+| 1.0 | none | 0.150 |
+| 0.25 | none | 0.120 |
 
-- **C** controls regularization. A smaller C means a simpler model, which helps with only 261 training rows.
-- **`class_weight="balanced"`** weights each tone inversely to how common it is. Without it, the model leans toward Frustrated. At C = 0.25 without balancing, it predicts Frustrated for every row and scores exactly the majority baseline's 0.122. Balanced weighting lifts the rare tones, which is what macro F1 rewards.
-- If two settings scored the same, the rule would prefer balanced, then the smaller C. That didn't happen.
+- **C** controls regularization. A smaller C means a simpler model, which helps with only 302 training rows.
+- **`class_weight="balanced"`** weights each tone inversely to how common it is. Without it, the model leans toward Frustrated. At C = 0.25 without balancing, it predicts Frustrated for every row and scores exactly the majority baseline's 0.120. Balanced weighting lifts the rare tones, which is what macro F1 rewards.
+- If two settings scored the same, the rule would prefer balanced, then the smaller C. That didn't happen, but C = 0.25 beat C = 4.0 by only 0.003, so the choice is close.
 
 The full grid is in `baselines/logistic_regression_search.csv`.
 
 ### The submitted model
 
-The chosen settings (C = 0.25, balanced) are **refit on train plus validation (348 rows)**, and that model predicts `test.csv`. This gives the leaderboard model every labeled conversation that participants also receive.
+The chosen settings (C = 0.25, balanced) are **refit on train plus validation (405 rows)**, and that model predicts `test.csv`. This gives the leaderboard model every labeled conversation that participants also receive.
 
-So the reported validation score (0.396) is from the train-only fit, and the test scores are from the refit model.
+So the reported validation score (0.330) is from the train-only fit, and the test scores are from the refit model.
 
 ## 8. Results
 
-| Model | Validation | Public | Private | Full test (88) |
+| Model | Validation | Public | Private | Full test (101) |
 | --- | ---: | ---: | ---: | ---: |
-| Majority | 0.122 | 0.125 | 0.121 | 0.123 |
-| Random, seed 16 (leaderboard dummy) | 0.193 | 0.181 | 0.139 | 0.160 |
-| Random, mean of 20 seeds | 0.194 | | | 0.167 |
-| Logistic regression | 0.396 | 0.339 | 0.377 | 0.378 |
+| Majority | 0.120 | 0.118 | 0.121 | 0.119 |
+| Random, seed 3 (leaderboard dummy) | 0.191 | 0.266 | 0.148 | 0.208 |
+| Random, mean of 20 seeds | 0.196 | | | 0.193 |
+| Logistic regression | 0.330 | 0.398 | 0.463 | 0.428 |
 
-On Kaggle, the two Benchmarks should show about **0.181 public / 0.139 private** (random) and **0.339 public / 0.377 private** (logistic regression).
+On Kaggle, the two Benchmarks should show about **0.266 public / 0.148 private** (random) and **0.398 public / 0.463 private** (logistic regression).
+
+The test scores are higher than the validation score. Validation and test are small, and the submitted model is refit on 405 rows instead of 302. The settings were chosen on validation only, so the gap is not from looking at test.
 
 Logistic regression F1 per tone:
 
 | Tone | Validation | Public | Private | Full test |
 | --- | ---: | ---: | ---: | ---: |
-| Appreciative or positive | 0.444 | 0.286 | 0.615 | 0.500 |
-| Neutral or informational | 0.143 | 0.200 | 0.000 | 0.133 |
-| Help-seeking or asking a question | 0.343 | 0.353 | 0.286 | 0.323 |
-| Frustrated or complaining | 0.667 | 0.524 | 0.513 | 0.519 |
-| Escalatory or requesting immediate resolution | 0.385 | 0.333 | 0.471 | 0.414 |
+| Appreciative or positive | 0.348 | 0.615 | 0.800 | 0.696 |
+| Neutral or informational | 0.182 | 0.000 | 0.308 | 0.167 |
+| Help-seeking or asking a question | 0.286 | 0.250 | 0.375 | 0.313 |
+| Frustrated or complaining | 0.654 | 0.625 | 0.478 | 0.553 |
+| Escalatory or requesting immediate resolution | 0.182 | 0.500 | 0.353 | 0.414 |
 
-Neutral or informational is the weakest tone; its private F1 is 0. It has no strong cue words, and flat statements about a late order look a lot like complaints. Annotators confuse Neutral with Help-seeking and Frustrated too (see `docs/ground_truth_method.md`).
+Neutral or informational is the weakest tone; its public F1 is 0. It has no strong cue words, and flat statements about a late order look a lot like complaints. Annotators confuse Neutral with Help-seeking and Frustrated too (see `docs/ground_truth_method.md`).
 
 ## 9. Is the logistic regression benchmark good enough?
 
@@ -149,54 +151,55 @@ Logistic regression has four scores, and they are used for different things:
 
 | Score | Value | Who sees it |
 | --- | ---: | --- |
-| Validation (train-only fit) | 0.396 | The team; used to choose the settings |
-| **Public leaderboard** | **0.339** | **Classmates, during the competition. This is the benchmark they compare against.** |
-| Private leaderboard | 0.377 | Everyone, at the Phase 2b deadline. It decides the final ranking. |
-| Full test, all 88 rows | 0.378 | Only the team. Kaggle never shows a full-test score. |
+| Validation (train-only fit) | 0.330 | The team; used to choose the settings |
+| **Public leaderboard** | **0.398** | **Classmates, during the competition. This is the benchmark they compare against.** |
+| Private leaderboard | 0.463 | Everyone, at the Phase 2b deadline. It decides the final ranking. |
+| Full test, all 101 rows | 0.428 | Only the team. Kaggle never shows a full-test score. |
 
-"0.38" in earlier drafts was the full-test score, rounded. It is not a number anyone sees on Kaggle. When talking to classmates, quote **0.339** as the number to beat, and mention 0.377 as the private benchmark for the final ranking.
+The full-test score is not a number anyone sees on Kaggle. When talking to classmates, quote **0.398** as the number to beat, and mention 0.463 as the private benchmark for the final ranking.
 
 ### Reference points
 
 | Reference | Macro F1 |
 | --- | ---: |
 | Always predict Frustrated (majority) | 0.12 |
-| Random guessing (leaderboard dummy), public / private | 0.181 / 0.139 |
-| **Logistic regression, public leaderboard** | **0.339** |
-| Logistic regression, private leaderboard | 0.377 |
-| Logistic regression, full test (0.378, rounded) | 0.38 |
-| LLM zero-shot, GPT-5 (50 test items; see `docs/steps_2_to_6.md`) | 0.44 |
+| Random guessing (leaderboard dummy), public / private | 0.266 / 0.148 |
+| **Logistic regression, public leaderboard** | **0.398** |
+| Logistic regression, private leaderboard | 0.463 |
+| Logistic regression, full test | 0.428 |
+| LLM zero-shot, GPT-5 (50 test items; see `docs/steps_2_to_6.md`) | 0.441 |
 
 All of these are scored on test or validation conversations. The annotator result below is on a different set, so it is kept out of this table.
 
 ### How annotators score against each other
 
-The labels themselves are noisy (Krippendorff's alpha 0.427 on the shared conversations), so annotators don't agree perfectly with each other either. To see how consistent individual annotators are, each one was scored against the other annotators on the 30 shared conversations:
+The labels themselves are noisy (Krippendorff's alpha 0.433 on the shared conversations), so annotators don't agree perfectly with each other either. To see how consistent individual annotators are, each one was scored against the other annotators on the 30 shared conversations:
 
 1. Hold out one annotator.
 2. Label each shared conversation with the reliability-weighted vote of the remaining annotators (weights from `outputs/annotator_reliability_weights.csv`).
 3. Score the held-out annotator's labels against that vote with macro F1 and accuracy.
-4. Repeat for all six annotators.
+4. Repeat for all seven annotators.
 
 | Annotator | Items | Macro F1 vs. the others | Accuracy vs. the others |
 | --- | ---: | ---: | ---: |
-| A1 | 30 | 0.467 | 0.600 |
+| A1 | 30 | 0.493 | 0.633 |
 | A2 | 30 | 0.472 | 0.700 |
-| A3 | 30 | 0.711 | 0.700 |
-| A4 | 30 | 0.437 | 0.567 |
-| A5 | 26 | 0.624 | 0.692 |
-| A6 | 30 | 0.511 | 0.633 |
-| **Mean** | | **0.537** | **0.649** |
+| A3 | 30 | 0.530 | 0.700 |
+| A4 | 30 | 0.457 | 0.600 |
+| A5 | 26 | 0.487 | 0.654 |
+| A6 | 30 | 0.482 | 0.667 |
+| A7 | 30 | 0.563 | 0.733 |
+| **Mean** | | **0.498** | **0.670** |
 
-On the 30 shared conversations, annotators averaged 0.537 macro F1 against the weighted consensus of the other annotators. Logistic regression was evaluated on a different set of 88 test conversations, so these scores aren't a direct human–model comparison.
+On the 30 shared conversations, annotators averaged 0.498 macro F1 against the weighted consensus of the other annotators. Logistic regression was evaluated on a different set of 101 test conversations, so these scores aren't a direct human–model comparison.
 
 This result shows the labels are subjective. It is not an upper limit for models. A model is scored against a consensus label, which is less noisy than any single annotator, so a model could score higher than an individual annotator does.
 
 Caveats:
 
-- The result rests on only 30 conversations, and the per-annotator scores range from 0.437 to 0.711, so treat 0.537 as rough.
+- The result rests on only 30 conversations, and the per-annotator scores range from 0.457 to 0.563, so treat 0.498 as rough.
 - The 30 shared conversations were not a random sample. `src/pipeline/make_overlap_annotator_packages.py` picked cases a rule-based checker rated as clear-cut, six per estimated tone. Annotators may agree less on the rest of the data.
-- The weights come from all six annotators, including the one held out. A strict version would recompute the weights without them. Weights only matter on ties, so the effect is small.
+- The weights come from all seven annotators, including the one held out. A strict version would recompute the weights without them. Weights only matter on ties, so the effect is small.
 - This number is not produced by any script yet. To regenerate it, run the snippet below from the repository root. It needs the local `annotation_submissions/` folder, which is not in git.
 
 ```python
@@ -207,7 +210,10 @@ from sklearn.metrics import f1_score
 
 rows = []
 for folder in sorted(glob.glob("annotation_submissions/annotator_*")):
-    for line in open(folder + "/annotations.jsonl", encoding="utf-8"):
+    path = folder + "/annotations.jsonl"
+    if not os.path.isfile(path):  # annotator_07 has only Potato's export
+        path = folder + "/exports/jsonl/annotations.jsonl"
+    for line in open(path, encoding="utf-8"):
         record = json.loads(line)
         label = next(iter(record["labels"]["conversation_sense"]))
         rows.append((str(record["instance_id"]), os.path.basename(folder), label))
@@ -238,23 +244,23 @@ for held_out in shared.columns:
 
 ### Why the task scores low
 
-- **Small training data:** 261 training conversations, or 348 with validation.
+- **Small training data:** 302 training conversations, or 405 with validation.
 - **Five subtle tones.** The boundaries that confuse models (Frustrated vs. Escalatory, Neutral vs. Help-seeking) confuse annotators too.
-- **Macro F1 is strict.** Neutral has 11 test rows, and its F1 of 0.13 pulls the average down as much as any common tone would.
+- **Macro F1 is strict.** Neutral has 16 test rows, and its F1 of 0.17 pulls the average down as much as any common tone would.
 - **Bag-of-words features can't read sarcasm.** "Thanks a lot" can be praise or a complaint.
 
 ### Why it's the right kind of baseline
 
 The assignment says the trained model "does not need to be a strong model; it is a reference point for everyone else." A useful benchmark:
 
-- clearly beats the dummy, which shows the task is learnable (0.339 vs. 0.181 on the public leaderboard; 0.377 vs. 0.139 on the private one), and
+- clearly beats the dummy, which shows the task is learnable (0.398 vs. 0.266 on the public leaderboard; 0.463 vs. 0.148 on the private one), and
 - leaves visible room for other teams. On the same 50 test conversations, GPT-5 zero-shot scores 0.44 and logistic regression scores 0.30, so a stronger model already does better.
 
-A very strong baseline would discourage submissions. The slide 12 pitch, "Beat the 0.339 Benchmark", relies on that headroom.
+A very strong baseline would discourage submissions. The slide 12 pitch, "Beat the 0.398 Benchmark", relies on that headroom.
 
 Suggested wording for the talk:
 
-> Our logistic regression benchmark scores 0.339 macro F1 on the public leaderboard, nearly twice the random dummy's 0.181. The final ranking uses the private leaderboard, where it scores 0.377. The labels are subjective: on our 30 shared conversations, annotators averaged 0.537 against each other's consensus. On the same 50 test conversations, GPT-5 zero-shot already beats logistic regression, 0.44 to 0.30, so there's room for better models.
+> Our logistic regression benchmark scores 0.398 macro F1 on the public leaderboard, against 0.266 for the random dummy. The final ranking uses the private leaderboard, where it scores 0.463. The labels are subjective: on our 30 shared conversations, annotators averaged 0.498 against each other's consensus. On the same 50 test conversations, GPT-5 zero-shot already beats logistic regression, 0.44 to 0.30, so there's room for better models.
 
 ## 10. Checks the script runs
 
@@ -266,19 +272,19 @@ Suggested wording for the talk:
 
 ## 11. Limitations
 
-- **Validation is small (87 rows).** One or two rows can change which setting wins, and validation macro F1 is noisy. The seed range of 0.137 to 0.274 shows how much luck alone can move a score.
-- **Public and private halves are tiny (44 rows each).** A rare tone has 5 or 6 rows per half, so one prediction can move that tone's F1 a lot. That is why logistic regression scores 0.339 public and 0.377 private.
+- **Validation is small (103 rows).** One or two rows can change which setting wins, and validation macro F1 is noisy. The seed range of 0.142 to 0.281 shows how much luck alone can move a score.
+- **Public and private halves are tiny (50 and 51 rows).** A rare tone has 5 or 6 rows per half, so one prediction can move that tone's F1 a lot. That is why logistic regression scores 0.398 public and 0.463 private, and the random dummy 0.266 and 0.148.
 - **The grid is deliberately small.** It has six settings, because this is a reference point, not a tuned model.
-- **The scores depend on the validation labels.** Validation chooses the seed and the settings and is part of the refit. Changing the two tied validation labels from the ground-truth step moved logistic regression to 0.357 public / 0.348 private. Details are in `docs/ground_truth_method.md`.
+- **The scores depend on the validation labels.** Validation chooses the seed and the settings and is part of the refit. Giving the two tied conversations from the ground-truth step their other label moved logistic regression to 0.318 public / 0.486 private. Details are in `docs/ground_truth_method.md`.
 
 ## 12. Files
 
 | File | Contents | In git |
 | --- | --- | --- |
-| `competition/submissions/dummy_baseline.csv` | Leaderboard dummy (random, seed 16) | Yes |
+| `competition/submissions/dummy_baseline.csv` | Leaderboard dummy (random, seed 3) | Yes |
 | `competition/submissions/logistic_regression.csv` | Leaderboard trained model | Yes |
 | `competition/submissions/majority_baseline.csv` | Majority predictions, same as the sample submission | Yes |
-| `competition/submissions/random_baseline.csv` | Random, seed 16 (same predictions as `dummy_baseline.csv`) | Yes |
+| `competition/submissions/random_baseline.csv` | Random, seed 3 (same predictions as `dummy_baseline.csv`) | Yes |
 | `baselines/baseline_scores.csv` | Macro F1 by model and split | Yes |
 | `baselines/per_class_f1.csv` | F1 by model, split and tone | Yes |
 | `baselines/logistic_regression_search.csv` | The six-setting grid | Yes |

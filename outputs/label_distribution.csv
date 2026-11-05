@@ -1,11 +1,11 @@
 method,label,conversations,share
-Majority vote,Appreciative or positive,49,0.11290322580645161
-Majority vote,Neutral or informational,54,0.12442396313364056
-Majority vote,Help-seeking or asking a question,86,0.19815668202764977
-Majority vote,Frustrated or complaining,191,0.4400921658986175
-Majority vote,Escalatory or requesting immediate resolution,54,0.12442396313364056
-Reliability-weighted vote,Appreciative or positive,50,0.11467889908256881
-Reliability-weighted vote,Neutral or informational,54,0.12385321100917432
-Reliability-weighted vote,Help-seeking or asking a question,86,0.19724770642201836
-Reliability-weighted vote,Frustrated or complaining,191,0.4380733944954128
-Reliability-weighted vote,Escalatory or requesting immediate resolution,55,0.12614678899082568
+Majority vote,Appreciative or positive,57,0.1130952380952381
+Majority vote,Neutral or informational,80,0.15873015873015872
+Majority vote,Help-seeking or asking a question,94,0.1865079365079365
+Majority vote,Frustrated or complaining,217,0.4305555555555556
+Majority vote,Escalatory or requesting immediate resolution,56,0.1111111111111111
+Reliability-weighted vote,Appreciative or positive,57,0.11264822134387352
+Reliability-weighted vote,Neutral or informational,81,0.1600790513833992
+Reliability-weighted vote,Help-seeking or asking a question,94,0.1857707509881423
+Reliability-weighted vote,Frustrated or complaining,217,0.4288537549407115
+Reliability-weighted vote,Escalatory or requesting immediate resolution,57,0.11264822134387352

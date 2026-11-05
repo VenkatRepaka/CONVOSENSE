@@ -1,89 +1,102 @@
 id,label
-18972,Escalatory or requesting immediate resolution
-49147,Escalatory or requesting immediate resolution
+18972,Frustrated or complaining
+49147,Appreciative or positive
 86244,Escalatory or requesting immediate resolution
 98577,Help-seeking or asking a question
-99913,Neutral or informational
-169498,Neutral or informational
-206744,Escalatory or requesting immediate resolution
-225246,Appreciative or positive
-232906,Appreciative or positive
-249991,Appreciative or positive
-317485,Frustrated or complaining
-324352,Frustrated or complaining
-352827,Neutral or informational
-353268,Appreciative or positive
-357370,Escalatory or requesting immediate resolution
-375263,Frustrated or complaining
-425173,Frustrated or complaining
-425509,Neutral or informational
-428649,Appreciative or positive
+99913,Appreciative or positive
+169498,Appreciative or positive
+206744,Appreciative or positive
+225246,Help-seeking or asking a question
+232906,Frustrated or complaining
+249991,Help-seeking or asking a question
+317485,Escalatory or requesting immediate resolution
+324352,Escalatory or requesting immediate resolution
+341286,Frustrated or complaining
+352827,Appreciative or positive
+353268,Neutral or informational
+357370,Neutral or informational
+375263,Appreciative or positive
+419466,Frustrated or complaining
+425173,Escalatory or requesting immediate resolution
+425509,Frustrated or complaining
+428649,Frustrated or complaining
+480321,Frustrated or complaining
 531684,Neutral or informational
-537573,Neutral or informational
-575406,Frustrated or complaining
-583529,Help-seeking or asking a question
-586890,Neutral or informational
-631641,Help-seeking or asking a question
+537573,Escalatory or requesting immediate resolution
+575406,Help-seeking or asking a question
+583529,Frustrated or complaining
+586890,Appreciative or positive
+631641,Escalatory or requesting immediate resolution
+727377,Frustrated or complaining
 765456,Appreciative or positive
-786151,Frustrated or complaining
-815591,Escalatory or requesting immediate resolution
-916614,Neutral or informational
-972289,Escalatory or requesting immediate resolution
+785444,Help-seeking or asking a question
+786151,Appreciative or positive
+815591,Help-seeking or asking a question
+916614,Escalatory or requesting immediate resolution
+972289,Help-seeking or asking a question
 977894,Appreciative or positive
 982997,Neutral or informational
-1022880,Neutral or informational
-1058840,Help-seeking or asking a question
-1100995,Appreciative or positive
-1121794,Neutral or informational
+1022880,Escalatory or requesting immediate resolution
+1058840,Neutral or informational
+1100995,Neutral or informational
+1121794,Appreciative or positive
 1122270,Appreciative or positive
-1125331,Appreciative or positive
+1125331,Escalatory or requesting immediate resolution
 1131258,Frustrated or complaining
 1145037,Neutral or informational
-1323491,Escalatory or requesting immediate resolution
-1327052,Neutral or informational
-1342555,Frustrated or complaining
+1270943,Appreciative or positive
+1323491,Appreciative or positive
+1327052,Escalatory or requesting immediate resolution
+1342555,Escalatory or requesting immediate resolution
 1364756,Escalatory or requesting immediate resolution
-1366968,Appreciative or positive
+1366968,Frustrated or complaining
 1366980,Help-seeking or asking a question
-1380892,Escalatory or requesting immediate resolution
-1418875,Escalatory or requesting immediate resolution
+1380892,Neutral or informational
+1403985,Neutral or informational
+1418875,Help-seeking or asking a question
 1432292,Help-seeking or asking a question
-1437410,Help-seeking or asking a question
-1477373,Escalatory or requesting immediate resolution
-1489438,Neutral or informational
-1500740,Escalatory or requesting immediate resolution
-1557306,Help-seeking or asking a question
-1573563,Appreciative or positive
-1585038,Neutral or informational
-1612481,Escalatory or requesting immediate resolution
-1655095,Escalatory or requesting immediate resolution
+1437410,Appreciative or positive
+1477373,Appreciative or positive
+1489438,Appreciative or positive
+1500740,Appreciative or positive
+1557306,Frustrated or complaining
+1573563,Frustrated or complaining
+1585038,Help-seeking or asking a question
+1612481,Appreciative or positive
+1655095,Appreciative or positive
 1733168,Escalatory or requesting immediate resolution
 1746957,Neutral or informational
-1820145,Help-seeking or asking a question
-1832072,Appreciative or positive
-2105751,Neutral or informational
-2115663,Help-seeking or asking a question
+1764559,Escalatory or requesting immediate resolution
+1820145,Neutral or informational
+1832072,Frustrated or complaining
+2105751,Frustrated or complaining
+2115663,Neutral or informational
 2142264,Neutral or informational
 2184793,Frustrated or complaining
-2220052,Appreciative or positive
-2265443,Escalatory or requesting immediate resolution
-2279314,Neutral or informational
-2297413,Help-seeking or asking a question
-2366318,Help-seeking or asking a question
-2384573,Help-seeking or asking a question
-2428164,Help-seeking or asking a question
-2457208,Frustrated or complaining
-2503577,Help-seeking or asking a question
+2200645,Appreciative or positive
+2220052,Neutral or informational
+2265443,Appreciative or positive
+2279314,Help-seeking or asking a question
+2297413,Frustrated or complaining
+2366318,Appreciative or positive
+2384573,Neutral or informational
+2396368,Help-seeking or asking a question
+2428164,Escalatory or requesting immediate resolution
+2457208,Escalatory or requesting immediate resolution
+2503577,Appreciative or positive
 2526175,Appreciative or positive
-2631423,Help-seeking or asking a question
-2680301,Escalatory or requesting immediate resolution
+2631423,Appreciative or positive
+2680301,Appreciative or positive
 2697964,Escalatory or requesting immediate resolution
 2725850,Escalatory or requesting immediate resolution
-2763014,Neutral or informational
-2830750,Escalatory or requesting immediate resolution
-2875573,Frustrated or complaining
-2884191,Neutral or informational
-2889300,Help-seeking or asking a question
-2924461,Frustrated or complaining
-2925526,Escalatory or requesting immediate resolution
-2938314,Frustrated or complaining
+2726343,Neutral or informational
+2763014,Appreciative or positive
+2830750,Help-seeking or asking a question
+2831623,Neutral or informational
+2837052,Frustrated or complaining
+2875573,Appreciative or positive
+2884191,Appreciative or positive
+2889300,Neutral or informational
+2924461,Neutral or informational
+2925526,Neutral or informational
+2938314,Neutral or informational

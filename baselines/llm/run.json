@@ -6,5 +6,5 @@
   "seed": 42,
   "reproducibility": "Manual chat run. Temperature and the exact model snapshot are not visible in the ChatGPT interface, so a rerun may differ.",
   "previous_run": "Grok 4.7, recorded in run_grok.json and predictions_grok.csv (macro F1 0.404).",
-  "leaderboard": "Scored on 50 of 88 test conversations. This file is not a full-test leaderboard submission."
+  "leaderboard": "Scored on 50 of the 101 test conversations. The 50 were drawn from the six-annotator test set, which the frozen split keeps entirely in test, and were rescored against the seven-annotator labels. This file is not a full-test leaderboard submission."
 }

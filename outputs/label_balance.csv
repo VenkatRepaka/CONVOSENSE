@@ -1,3 +1,3 @@
 method,conversations,classes,chi_square,p_value,equal_share_per_class,largest_class,largest_class_conversations,smallest_class,smallest_class_conversations,classes_are_balanced
-Majority vote,434,5,166.34562211981566,6.36324937536042e-35,86.8,Frustrated or complaining,191,Appreciative or positive,49,False
-Reliability-weighted vote,436,5,163.97706422018348,2.0504586146802408e-34,87.2,Frustrated or complaining,191,Appreciative or positive,50,False
+Majority vote,504,5,177.6468253968254,2.3871051659198955e-37,100.8,Frustrated or complaining,217,Escalatory or requesting immediate resolution,56,False
+Reliability-weighted vote,506,5,175.6600790513834,6.374679344186457e-37,101.2,Frustrated or complaining,217,Appreciative or positive,57,False

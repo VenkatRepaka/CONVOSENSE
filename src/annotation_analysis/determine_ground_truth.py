@@ -23,9 +23,10 @@ not votes. An item labeled by one annotator keeps that label. The annotator
 id is the submission folder name (``annotator_01``), because ``user_id`` in
 the JSONL is a display name for some classmates and an id for others.
 
-Each annotator directory contains the same JSONL twice (the file they
-turned in, and Potato's export copy). This loader reads
-``annotation_submissions/<annotator>/annotations.jsonl`` only.
+Each of annotators 01–06 turned in the same JSONL twice (the file at the
+top of the folder, and Potato's export copy). This loader reads the
+top-level ``annotations.jsonl`` when it is there. Annotator 07 submitted
+only ``annotator_07/exports/jsonl/annotations.jsonl``.
 
 Run from the repository root::
 
@@ -77,9 +78,10 @@ def load_primary_tone_annotations(submissions_dir: Path) -> pd.DataFrame:
     Parameters
     ----------
     submissions_dir:
-        Directory of annotator folders. Each folder that contains
-        ``annotations.jsonl`` contributes one annotator, named after the
-        folder.
+        Directory of annotator folders. A folder contributes one annotator
+        when it contains ``annotations.jsonl`` or, failing that,
+        ``exports/jsonl/annotations.jsonl``. The annotator id is the folder
+        name.
 
     Returns
     -------
@@ -100,8 +102,8 @@ def load_primary_tone_annotations(submissions_dir: Path) -> pd.DataFrame:
         path for path in submissions_dir.iterdir() if path.is_dir()
     )
     for annotator_dir in annotator_dirs:
-        annotation_file = annotator_dir / "annotations.jsonl"
-        if not annotation_file.is_file():
+        annotation_file = _find_annotation_file(annotator_dir)
+        if annotation_file is None:
             continue
         rows.extend(_read_annotator_file(annotator_dir.name, annotation_file))
 
@@ -536,6 +538,23 @@ def main(argv: list[str] | None = None) -> None:
     print("Class balance:")
     print(balance.to_string(index=False))
     print(f"Label distribution chart: {distribution_chart}")
+
+
+def _find_annotation_file(annotator_dir: Path) -> Path | None:
+    """Return one JSONL for this folder, preferring the top-level copy.
+
+    Annotators 01–06 have ``annotations.jsonl`` at the top of the folder and
+    the same bytes under Potato's export path. Annotator 07 submitted only
+    the export path. The first hit is the one that is read.
+    """
+    for relative in (
+        "annotations.jsonl",
+        "exports/jsonl/annotations.jsonl",
+    ):
+        path = annotator_dir / relative
+        if path.is_file():
+            return path
+    return None
 
 
 def _read_annotator_file(annotator_id: str, annotation_file: Path) -> list[dict[str, str]]:

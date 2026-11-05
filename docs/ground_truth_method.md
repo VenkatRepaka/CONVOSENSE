@@ -10,18 +10,18 @@ MPLCONFIGDIR=/tmp/mplconfig /opt/anaconda3/bin/python src/annotation_analysis/de
 
 ## 1. The input
 
-Six classmates labeled conversations in Potato. The label that counts is the primary field, `conversation_sense`. The optional `secondary_sense` is not a vote. Each annotator is identified by their submission folder name (`annotator_01` to `annotator_06`, written A1 to A6 below).
+Seven classmates labeled conversations in Potato. The label that counts is the primary field, `conversation_sense`. The optional `secondary_sense` is not a vote. Each annotator is identified by their submission folder name (`annotator_01` to `annotator_07`, written A1 to A7 below).
 
 | | Count |
 | --- | ---: |
-| Labels submitted | 582 |
-| Distinct conversations | 436 |
-| Conversations labeled by one annotator | 406 |
-| Shared conversations (labeled by 5 or 6 annotators) | 30 |
-| Shared, all six annotators | 26 |
-| Shared, five annotators (A5 skipped them) | 4 |
-| Shared and unanimous | 5 |
-| Shared with at least one disagreement | 25 |
+| Labels submitted | 682 |
+| Distinct conversations | 506 |
+| Conversations labeled by one annotator | 476 |
+| Shared conversations (labeled by 6 or 7 annotators) | 30 |
+| Shared, all seven annotators | 26 |
+| Shared, six annotators (A5 skipped them) | 4 |
+| Shared and unanimous | 3 |
+| Shared with at least one disagreement | 27 |
 
 The labels are arranged as a table with one row per conversation and one column per annotator. An empty cell means that annotator did not label that conversation.
 
@@ -31,7 +31,7 @@ Every conversation is settled by exactly one of these rules.
 
 | Rule | Applies to | Result |
 | --- | --- | --- |
-| Single annotator | 406 conversations | That annotator's label is the ground truth |
+| Single annotator | 476 conversations | That annotator's label is the ground truth |
 | Majority vote | 30 shared conversations | 28 decided, 2 ties left unlabeled |
 | Reliability-weighted vote (used) | 30 shared conversations | 30 decided, 0 ties |
 
@@ -48,8 +48,10 @@ Two conversations tied 3–3:
 
 | Conversation | Votes |
 | --- | --- |
-| 1003675 | Appreciative or positive 3, Help-seeking or asking a question 3 |
-| 1257160 | Frustrated or complaining 3, Escalatory or requesting immediate resolution 3 |
+| 1100995 | Frustrated or complaining 3, Escalatory or requesting immediate resolution 3 (A5 did not label it) |
+| 233771 | Help-seeking or asking a question 3, Neutral or informational 3, Frustrated or complaining 1 |
+
+The six-annotator data had two different ties, `1003675` and `1257160`. Annotator 7's vote decided both: `1003675` is now Appreciative 4–3, and `1257160` is now Frustrated 4–3.
 
 ## 4. Reliability-weighted vote
 
@@ -57,7 +59,7 @@ This works in two steps. First each annotator gets a weight, once for the whole 
 
 ### 4.1 Cohen's kappa for every pair of annotators
 
-For each of the 15 annotator pairs, take the conversations both of them labeled: 30 items, or 26 for pairs that include A5. Cohen's kappa measures how much the two agree beyond chance:
+For each of the 21 annotator pairs, take the conversations both of them labeled: 30 items, or 26 for pairs that include A5. Cohen's kappa measures how much the two agree beyond chance:
 
 κ = (p_o − p_e) / (1 − p_e)
 
@@ -69,35 +71,39 @@ This is calculated with `sklearn.metrics.cohen_kappa_score`.
 
 **Example, A5 and A6:** they agreed on 21 of 26 items, so p_o = 0.808. Chance agreement for their label habits is about 0.216. So κ = (0.808 − 0.216) / (1 − 0.216) = 0.755, the highest pair.
 
-All 15 pairs:
+All 21 pairs:
 
-| | A1 | A2 | A3 | A4 | A5 | A6 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| **A1** | | 0.397 | 0.311 | 0.475 | 0.264 | 0.292 |
-| **A2** | 0.397 | | 0.561 | 0.363 | 0.402 | 0.495 |
-| **A3** | 0.311 | 0.561 | | 0.478 | 0.610 | 0.455 |
-| **A4** | 0.475 | 0.363 | 0.478 | | 0.365 | 0.289 |
-| **A5** | 0.264 | 0.402 | 0.610 | 0.365 | | 0.755 |
-| **A6** | 0.292 | 0.495 | 0.455 | 0.289 | 0.755 | |
+| | A1 | A2 | A3 | A4 | A5 | A6 | A7 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| **A1** | | 0.397 | 0.311 | 0.475 | 0.264 | 0.292 | 0.327 |
+| **A2** | 0.397 | | 0.561 | 0.363 | 0.402 | 0.495 | 0.525 |
+| **A3** | 0.311 | 0.561 | | 0.478 | 0.610 | 0.455 | 0.475 |
+| **A4** | 0.475 | 0.363 | 0.478 | | 0.365 | 0.289 | 0.380 |
+| **A5** | 0.264 | 0.402 | 0.610 | 0.365 | | 0.755 | 0.454 |
+| **A6** | 0.292 | 0.495 | 0.455 | 0.289 | 0.755 | | 0.510 |
+| **A7** | 0.327 | 0.525 | 0.475 | 0.380 | 0.454 | 0.510 | |
 
-### 4.2 Each annotator's weight is the average of their five kappas
+The pairs among A1–A6 are the same as in the six-annotator run, because annotator 7 only adds a column.
 
-Each annotator has five kappa scores, one per partner (one row of the table above). Their weight is the average: add the five and divide by 5.
+### 4.2 Each annotator's weight is the average of their six kappas
 
-**A1:** (0.397 + 0.311 + 0.475 + 0.264 + 0.292) ÷ 5 = 1.739 ÷ 5 = **0.348**
+Each annotator has six kappa scores, one per partner (one row of the table above). Their weight is the average: add the six and divide by 6.
 
-**A3:** (0.311 + 0.561 + 0.478 + 0.610 + 0.455) ÷ 5 = 2.415 ÷ 5 = **0.483**
+**A1:** (0.397 + 0.311 + 0.475 + 0.264 + 0.292 + 0.327) ÷ 6 = 2.066 ÷ 6 = **0.344**
+
+**A3:** (0.311 + 0.561 + 0.478 + 0.610 + 0.455 + 0.475) ÷ 6 = 2.890 ÷ 6 = **0.482**
 
 | Annotator | Weight |
 | --- | ---: |
-| A1 | 0.348 |
-| A2 | 0.444 |
-| A3 | 0.483 |
-| A4 | 0.394 |
-| A5 | 0.479 |
-| A6 | 0.457 |
+| A1 | 0.345 |
+| A2 | 0.457 |
+| A3 | 0.482 |
+| A4 | 0.391 |
+| A5 | 0.475 |
+| A6 | 0.466 |
+| A7 | 0.445 |
 
-A higher weight means the annotator agrees more with the rest of the group, on average.
+A1's weight is 0.3446 before rounding, so the hand sum above shows 0.344 and the table 0.345. A higher weight means the annotator agrees more with the rest of the group, on average.
 
 Safety rules in the code. None of them were triggered by our data:
 
@@ -110,50 +116,42 @@ Safety rules in the code. None of them were triggered by our data:
 
 For each conversation, add up the weights of the annotators who chose each tone. The tone with the biggest total wins. Totals equal within floating-point tolerance (`numpy.isclose`) would count as a tie and stay unlabeled. That did not happen. The weights are not normalized; only their relative size matters.
 
-**Conversation 1003675:**
+**Conversation 1100995:**
 
 | Tone | Annotators | Total weight |
 | --- | --- | ---: |
-| Appreciative or positive (wins) | A3 + A5 + A6 = 0.483 + 0.479 + 0.457 | **1.419** |
-| Help-seeking or asking a question | A1 + A2 + A4 = 0.348 + 0.444 + 0.394 | 1.186 |
+| Escalatory or requesting immediate resolution (wins) | A3 + A4 + A7 = 0.482 + 0.391 + 0.445 | **1.318** |
+| Frustrated or complaining | A1 + A2 + A6 = 0.345 + 0.457 + 0.466 | 1.268 |
 
-**Conversation 1257160:**
+**Conversation 233771:**
 
 | Tone | Annotators | Total weight |
 | --- | --- | ---: |
-| Escalatory or requesting immediate resolution (wins) | A3 + A4 + A5 = 0.483 + 0.394 + 0.479 | **1.356** |
-| Frustrated or complaining | A1 + A2 + A6 = 0.348 + 0.444 + 0.457 | 1.249 |
+| Neutral or informational (wins) | A3 + A5 + A6 = 0.482 + 0.475 + 0.466 | **1.423** |
+| Help-seeking or asking a question | A2 + A4 + A7 = 0.457 + 0.391 + 0.445 | 1.294 |
+| Frustrated or complaining | A1 | 0.345 |
 
-On the other 28 shared conversations, the weighted vote picks the same tone as majority vote. The weights range only from 0.35 to 0.48, which is too narrow to overturn a split like 4–2. In practice, the weighted vote is majority vote with a principled tie-breaker.
+On the other 28 shared conversations, the weighted vote picks the same tone as majority vote. The weights range only from 0.35 to 0.48, which is too narrow to overturn a split like 4–3. In practice, the weighted vote is majority vote with a principled tie-breaker.
 
 ## 5. Why we chose the weighted vote
 
-1. **Every row needs a label.** A Kaggle answer key cannot have blank rows. The weighted vote labels all 436 conversations; majority vote leaves two blank.
+1. **Every row needs a label.** A Kaggle answer key cannot have blank rows. The weighted vote labels all 506 conversations; majority vote leaves two blank.
 2. **A fixed rule decides the ties.** The tie-breaker was set before anyone looked at the outcome, so no team member chose an answer.
-3. **It changes very little.** The weighted vote differs from majority vote on 2 of 436 labels, and with the current split both are in `validation.csv`. The test answer key is the same either way, so any fixed submission gets the same score.
+3. **It changes very little.** The weighted vote differs from majority vote on 2 of 506 labels. `233771` is in `validation.csv`. `1100995` is a private test row, so one answer-key row depends on the tie-break.
 
 ### What the choice does affect
 
-The voting method still matters, for two reasons. Both were checked by re-running the pipeline in a scratch folder.
+The voting method still matters. This was checked by re-running the pipeline in a scratch folder with the two tie labels changed.
 
-**Validation is used for tuning and refitting.** The logistic regression's settings (C and class weight) are chosen on validation, the random dummy's seed is the one whose validation score is closest to the 20-seed mean, and the submitted logistic regression is refit on train plus validation. Changing only the two tied validation labels, with the split held fixed:
+**Validation is used for tuning and refitting.** The logistic regression's settings (C and class weight) are chosen on validation, the random dummy's seed is the one whose validation score is closest to the 20-seed mean, and the submitted logistic regression is refit on train plus validation. **The Public/Private cut is stratified by label**, so changing the test tie also moves some test rows between the two halves. Train, validation and test membership stays fixed, because the split is frozen in `competition/split_assignments.csv`.
 
 | | Weighted vote (current) | Ties given the other label | Ties dropped |
 | --- | ---: | ---: | ---: |
-| Random dummy seed chosen | 16 | 8 | 10 |
-| Random dummy, public / private | 0.181 / 0.139 | 0.186 / 0.185 | 0.207 / 0.115 |
-| Logistic regression, public / private | 0.339 / 0.377 | 0.357 / 0.348 | 0.338 / 0.377 |
+| Random dummy seed chosen | 3 | 3 | 17 |
+| Random dummy, public / private | 0.266 / 0.148 | 0.294 / 0.121 | 0.153 / 0.226 |
+| Logistic regression, public / private | 0.398 / 0.463 | 0.318 / 0.486 | 0.338 / 0.494 |
 
-Participants also train on validation, so their scores could shift the same way.
-
-**The split depends on the labels.** The split is stratified by label, so it was built from the weighted-vote labels. "Both ties are in validation" is true for that split only. Re-running `prepare_competition_files.py` with majority-vote-based labels gives a different split:
-
-| Tie handling | Test conversations shared with the current test set | Training conversations shared |
-| --- | ---: | ---: |
-| Ties given the other label | 27 of 88 | 160 of 261 |
-| Ties dropped (434 conversations) | 70 of 88 | 193 of 261 |
-
-So the voting method was settled before the split, and the split should not be rebuilt after the competition launches.
+"Other label" means Frustrated for `1100995` and Help-seeking for `233771`. Participants also train on validation, so their scores could shift the same way. The voting method was settled before launch, and the labels should not change after it.
 
 ## 6. What was our choice, and what was given
 
@@ -175,25 +173,25 @@ These alternatives would be estimated from only 30 shared conversations, so a mo
 
 ## 7. Limitations
 
-- **Most labels are single opinions.** 406 of 436 labels (93%) come from one annotator and were never cross-checked. Krippendorff's alpha was 0.427 on the 30 conversations labeled by multiple annotators. The other 406 conversations each had one label, so we couldn't measure agreement on those items. Alpha describes the shared set only, and that set was not a random sample: `src/pipeline/make_overlap_annotator_packages.py` picked conversations that a rule-based checker rated as clear-cut, six per estimated tone. Agreement on the single-label conversations could be different, and possibly lower.
+- **Most labels are single opinions.** 476 of 506 labels (94%) come from one annotator and were never cross-checked. Krippendorff's alpha was 0.433 on the 30 conversations labeled by multiple annotators. The other 476 conversations each had one label, so we couldn't measure agreement on those items. Alpha describes the shared set only, and that set was not a random sample: `src/pipeline/make_overlap_annotator_packages.py` picked conversations that a rule-based checker rated as clear-cut, six per estimated tone. Agreement on the single-label conversations could be different, and possibly lower.
 - **Reliability means agreeing with the group.** A careful annotator who notices sarcasm the others miss would get a lower weight.
 - **Small sample.** Each weight rests on 26–30 items, so a few labels either way would shift it by a few hundredths.
 - **The weights are circular.** They come from the same 30 conversations they help decide, because those are the only conversations with overlap.
 
 ## 8. The disagreement list
 
-The assignment says to keep a list of the items annotators disagreed on. `outputs/adjudication_disagreements.csv` lists all 25 shared conversations without a unanimous label. Each row has every annotator's label and a vote summary, such as `Frustrated or complaining (3); Escalatory or requesting immediate resolution (3)`. Use it for hand adjudication, for revising the guidelines, or for error analysis.
+The assignment says to keep a list of the items annotators disagreed on. `outputs/adjudication_disagreements.csv` lists all 27 shared conversations without a unanimous label. Each row has every annotator's label and a vote summary, such as `Frustrated or complaining (3); Escalatory or requesting immediate resolution (3)`. Use it for hand adjudication, for revising the guidelines, or for error analysis.
 
 The tones most often confused, counted as pairs of annotators who disagreed:
 
 | Tone pair | Disagreeing pairs |
 | --- | ---: |
-| Frustrated – Escalatory | 57 |
-| Appreciative – Help-seeking | 38 |
-| Help-seeking – Neutral | 29 |
-| Frustrated – Neutral | 24 |
-| Frustrated – Help-seeking | 18 |
-| Appreciative – Neutral | 12 |
+| Frustrated – Escalatory | 75 |
+| Appreciative – Help-seeking | 48 |
+| Frustrated – Help-seeking | 38 |
+| Frustrated – Neutral | 37 |
+| Help-seeking – Neutral | 35 |
+| Appreciative – Neutral | 15 |
 
 ## 9. Files
 
@@ -203,8 +201,8 @@ All of these are written by `determine_ground_truth.py` into `outputs/`.
 | --- | --- | --- |
 | `ground_truth_weighted_vote.csv` | Final label per conversation (used for the competition), with `supporting_weight` | No: contains test labels |
 | `ground_truth_majority_vote.csv` | Majority-vote label, with `unresolved_tie` on the two ties | No: contains test labels |
-| `adjudication_disagreements.csv` | The 25 disagreed conversations | No: contains test labels |
-| `annotator_reliability_weights.csv` | The six weights | Yes |
+| `adjudication_disagreements.csv` | The 27 disagreed conversations | No: contains test labels |
+| `annotator_reliability_weights.csv` | The seven weights | Yes |
 | `pairwise_annotator_agreement.csv` | Cohen's kappa and percentage agreement for each pair | Yes |
 | `ground_truth_label_distribution.png` | Label counts under both methods | Yes |
 
@@ -212,9 +210,9 @@ Code locations in `src/annotation_analysis/determine_ground_truth.py`:
 
 | Function | Line |
 | --- | ---: |
-| `assign_ground_truth_by_majority_vote` | 149 |
-| `reliability_weights_from_pairwise_cohen_kappa` | 195 |
-| `assign_ground_truth_by_weighted_vote` | 250 |
-| `list_items_annotators_disagreed_on` | 330 |
+| `assign_ground_truth_by_majority_vote` | 151 |
+| `reliability_weights_from_pairwise_cohen_kappa` | 197 |
+| `assign_ground_truth_by_weighted_vote` | 252 |
+| `list_items_annotators_disagreed_on` | 332 |
 
 See also `docs/steps_2_to_6.md` (step 3) and the slide 5 and 6 presenter notes in `docs/phase2a_presenter_notes/`.

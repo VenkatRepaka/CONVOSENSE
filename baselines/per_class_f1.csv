@@ -2,80 +2,80 @@ model,split,label,f1
 majority,validation,Appreciative or positive,0.0
 majority,validation,Neutral or informational,0.0
 majority,validation,Help-seeking or asking a question,0.0
-majority,validation,Frustrated or complaining,0.608
+majority,validation,Frustrated or complaining,0.5986394557823129
 majority,validation,Escalatory or requesting immediate resolution,0.0
 majority,test,Appreciative or positive,0.0
 majority,test,Neutral or informational,0.0
 majority,test,Help-seeking or asking a question,0.0
-majority,test,Frustrated or complaining,0.6141732283464567
+majority,test,Frustrated or complaining,0.5972222222222222
 majority,test,Escalatory or requesting immediate resolution,0.0
 majority,public,Appreciative or positive,0.0
 majority,public,Neutral or informational,0.0
 majority,public,Help-seeking or asking a question,0.0
-majority,public,Frustrated or complaining,0.625
+majority,public,Frustrated or complaining,0.5915492957746479
 majority,public,Escalatory or requesting immediate resolution,0.0
 majority,private,Appreciative or positive,0.0
 majority,private,Neutral or informational,0.0
 majority,private,Help-seeking or asking a question,0.0
-majority,private,Frustrated or complaining,0.6031746031746031
+majority,private,Frustrated or complaining,0.6027397260273972
 majority,private,Escalatory or requesting immediate resolution,0.0
-random,validation,Appreciative or positive,0.16
-random,validation,Neutral or informational,0.1875
-random,validation,Help-seeking or asking a question,0.17647058823529413
-random,validation,Frustrated or complaining,0.2
-random,validation,Escalatory or requesting immediate resolution,0.24242424242424243
-random,test,Appreciative or positive,0.08
-random,test,Neutral or informational,0.25
-random,test,Help-seeking or asking a question,0.17647058823529413
-random,test,Frustrated or complaining,0.23076923076923078
-random,test,Escalatory or requesting immediate resolution,0.06060606060606061
-random,public,Appreciative or positive,0.2
-random,public,Neutral or informational,0.3
-random,public,Help-seeking or asking a question,0.125
-random,public,Frustrated or complaining,0.15384615384615385
-random,public,Escalatory or requesting immediate resolution,0.125
+random,validation,Appreciative or positive,0.09523809523809523
+random,validation,Neutral or informational,0.21052631578947367
+random,validation,Help-seeking or asking a question,0.2857142857142857
+random,validation,Frustrated or complaining,0.22580645161290322
+random,validation,Escalatory or requesting immediate resolution,0.13793103448275862
+random,test,Appreciative or positive,0.1951219512195122
+random,test,Neutral or informational,0.2702702702702703
+random,test,Help-seeking or asking a question,0.24242424242424243
+random,test,Frustrated or complaining,0.19672131147540983
+random,test,Escalatory or requesting immediate resolution,0.13333333333333333
+random,public,Appreciative or positive,0.36363636363636365
+random,public,Neutral or informational,0.2222222222222222
+random,public,Help-seeking or asking a question,0.26666666666666666
+random,public,Frustrated or complaining,0.1935483870967742
+random,public,Escalatory or requesting immediate resolution,0.2857142857142857
 random,private,Appreciative or positive,0.0
-random,private,Neutral or informational,0.16666666666666666
+random,private,Neutral or informational,0.3157894736842105
 random,private,Help-seeking or asking a question,0.2222222222222222
-random,private,Frustrated or complaining,0.3076923076923077
+random,private,Frustrated or complaining,0.2
 random,private,Escalatory or requesting immediate resolution,0.0
-dummy_selected,validation,Appreciative or positive,0.16
-dummy_selected,validation,Neutral or informational,0.1875
-dummy_selected,validation,Help-seeking or asking a question,0.17647058823529413
-dummy_selected,validation,Frustrated or complaining,0.2
-dummy_selected,validation,Escalatory or requesting immediate resolution,0.24242424242424243
-dummy_selected,test,Appreciative or positive,0.08
-dummy_selected,test,Neutral or informational,0.25
-dummy_selected,test,Help-seeking or asking a question,0.17647058823529413
-dummy_selected,test,Frustrated or complaining,0.23076923076923078
-dummy_selected,test,Escalatory or requesting immediate resolution,0.06060606060606061
-dummy_selected,public,Appreciative or positive,0.2
-dummy_selected,public,Neutral or informational,0.3
-dummy_selected,public,Help-seeking or asking a question,0.125
-dummy_selected,public,Frustrated or complaining,0.15384615384615385
-dummy_selected,public,Escalatory or requesting immediate resolution,0.125
+dummy_selected,validation,Appreciative or positive,0.09523809523809523
+dummy_selected,validation,Neutral or informational,0.21052631578947367
+dummy_selected,validation,Help-seeking or asking a question,0.2857142857142857
+dummy_selected,validation,Frustrated or complaining,0.22580645161290322
+dummy_selected,validation,Escalatory or requesting immediate resolution,0.13793103448275862
+dummy_selected,test,Appreciative or positive,0.1951219512195122
+dummy_selected,test,Neutral or informational,0.2702702702702703
+dummy_selected,test,Help-seeking or asking a question,0.24242424242424243
+dummy_selected,test,Frustrated or complaining,0.19672131147540983
+dummy_selected,test,Escalatory or requesting immediate resolution,0.13333333333333333
+dummy_selected,public,Appreciative or positive,0.36363636363636365
+dummy_selected,public,Neutral or informational,0.2222222222222222
+dummy_selected,public,Help-seeking or asking a question,0.26666666666666666
+dummy_selected,public,Frustrated or complaining,0.1935483870967742
+dummy_selected,public,Escalatory or requesting immediate resolution,0.2857142857142857
 dummy_selected,private,Appreciative or positive,0.0
-dummy_selected,private,Neutral or informational,0.16666666666666666
+dummy_selected,private,Neutral or informational,0.3157894736842105
 dummy_selected,private,Help-seeking or asking a question,0.2222222222222222
-dummy_selected,private,Frustrated or complaining,0.3076923076923077
+dummy_selected,private,Frustrated or complaining,0.2
 dummy_selected,private,Escalatory or requesting immediate resolution,0.0
-logistic_regression,validation,Appreciative or positive,0.4444444444444444
-logistic_regression,validation,Neutral or informational,0.14285714285714285
-logistic_regression,validation,Help-seeking or asking a question,0.34285714285714286
-logistic_regression,validation,Frustrated or complaining,0.6666666666666666
-logistic_regression,validation,Escalatory or requesting immediate resolution,0.38461538461538464
-logistic_regression,test,Appreciative or positive,0.5
-logistic_regression,test,Neutral or informational,0.13333333333333333
-logistic_regression,test,Help-seeking or asking a question,0.3225806451612903
-logistic_regression,test,Frustrated or complaining,0.5185185185185185
+logistic_regression,validation,Appreciative or positive,0.34782608695652173
+logistic_regression,validation,Neutral or informational,0.18181818181818182
+logistic_regression,validation,Help-seeking or asking a question,0.2857142857142857
+logistic_regression,validation,Frustrated or complaining,0.6538461538461539
+logistic_regression,validation,Escalatory or requesting immediate resolution,0.18181818181818182
+logistic_regression,test,Appreciative or positive,0.6956521739130435
+logistic_regression,test,Neutral or informational,0.16666666666666666
+logistic_regression,test,Help-seeking or asking a question,0.3125
+logistic_regression,test,Frustrated or complaining,0.5531914893617021
 logistic_regression,test,Escalatory or requesting immediate resolution,0.41379310344827586
-logistic_regression,public,Appreciative or positive,0.2857142857142857
-logistic_regression,public,Neutral or informational,0.2
-logistic_regression,public,Help-seeking or asking a question,0.35294117647058826
-logistic_regression,public,Frustrated or complaining,0.5238095238095238
-logistic_regression,public,Escalatory or requesting immediate resolution,0.3333333333333333
-logistic_regression,private,Appreciative or positive,0.6153846153846154
-logistic_regression,private,Neutral or informational,0.0
-logistic_regression,private,Help-seeking or asking a question,0.2857142857142857
-logistic_regression,private,Frustrated or complaining,0.5128205128205128
-logistic_regression,private,Escalatory or requesting immediate resolution,0.47058823529411764
+logistic_regression,public,Appreciative or positive,0.6153846153846154
+logistic_regression,public,Neutral or informational,0.0
+logistic_regression,public,Help-seeking or asking a question,0.25
+logistic_regression,public,Frustrated or complaining,0.625
+logistic_regression,public,Escalatory or requesting immediate resolution,0.5
+logistic_regression,private,Appreciative or positive,0.8
+logistic_regression,private,Neutral or informational,0.3076923076923077
+logistic_regression,private,Help-seeking or asking a question,0.375
+logistic_regression,private,Frustrated or complaining,0.4782608695652174
+logistic_regression,private,Escalatory or requesting immediate resolution,0.35294117647058826

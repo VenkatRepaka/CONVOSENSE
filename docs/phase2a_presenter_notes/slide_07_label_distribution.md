@@ -7,25 +7,25 @@
 ## On the slide
 
 - Bar chart of conversations per tone
-- 43.8% Frustrated, 11.5% Appreciative
-- Chi-square test against an equal share: χ² = 164.0, p < 0.001
+- 42.9% Frustrated; Appreciative and Escalatory 11.3% each
+- Chi-square test against an equal share: χ² = 175.7, p < 0.001
 
 ## What to say
 
-> Here is the label distribution. Frustrated is 44% of the data, almost four times the smallest tone. A chi-square test against an equal share per tone rejects balance with p below 0.001. This is why we score the competition with macro F1 rather than accuracy. Otherwise a model could do well just by predicting Frustrated.
+> Here is the label distribution. Frustrated is 43% of the data, almost four times the smallest tones. A chi-square test against an equal share per tone rejects balance with p below 0.001. This is why we score the competition with macro F1 rather than accuracy. Otherwise a model could do well just by predicting Frustrated.
 
 ## Key facts
 
 | Tone | Conversations | Share |
 | --- | ---: | ---: |
-| Appreciative or positive | 50 | 11.5% |
-| Neutral or informational | 54 | 12.4% |
-| Help-seeking or asking a question | 86 | 19.7% |
-| Frustrated or complaining | 191 | 43.8% |
-| Escalatory or requesting immediate resolution | 55 | 12.6% |
+| Appreciative or positive | 57 | 11.3% |
+| Neutral or informational | 81 | 16.0% |
+| Help-seeking or asking a question | 94 | 18.6% |
+| Frustrated or complaining | 217 | 42.9% |
+| Escalatory or requesting immediate resolution | 57 | 11.3% |
 
-- An equal share would be 87.2 per tone.
-- Majority-vote labels (434 conversations) give the same result: χ² = 166.3, p < 0.001.
+- An equal share would be 101.2 per tone.
+- Majority-vote labels (504 conversations, two ties dropped) give the same result: χ² = 177.6, p < 0.001.
 
 ## If asked
 

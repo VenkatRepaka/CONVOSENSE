@@ -4,9 +4,9 @@ Text below the horizontal rules is what to paste into Kaggle. The host checklist
 
 Files to upload on the **Data** tab (participants download these):
 
-- `competition/participant/train.csv` — 261 conversations, with labels
-- `competition/participant/validation.csv` — 87 conversations, with labels
-- `competition/participant/test.csv` — 88 conversations, inputs only
+- `competition/participant/train.csv` — 302 conversations, with labels
+- `competition/participant/validation.csv` — 103 conversations, with labels
+- `competition/participant/test.csv` — 101 conversations, inputs only
 - `competition/participant/sample_submission.csv` — submission template
 
 Answer key, uploaded only in Kaggle's solution slot:
@@ -19,7 +19,7 @@ Regenerate everything from the repository root with:
 python src/competition/prepare_competition_files.py
 ```
 
-Labels are the reliability-weighted vote in `outputs/ground_truth_weighted_vote.csv`. That vote assigns a tone to all 436 annotated conversations. The split is stratified by tone, seed 42: about 60% train, 20% validation, 20% test. The test rows are split evenly into the public and private leaderboards.
+Labels are the reliability-weighted vote in `outputs/ground_truth_weighted_vote.csv`. That vote assigns a tone to all 506 annotated conversations. The split is about 60% train, 20% validation, 20% test, by tone, and frozen in `competition/split_assignments.csv`: conversations already split keep their part, and only newly labeled ones are split. The test rows are split about evenly into the public and private leaderboards, stratified by tone.
 
 ---
 
@@ -45,20 +45,20 @@ Every conversation has one of these five tones:
 4. Frustrated or complaining — displeasure or criticism, without a demand for immediate action.
 5. Escalatory or requesting immediate resolution — a demand, a threat, or a request to escalate.
 
-Six annotators labeled these conversations: 582 labels on 436 conversations. 406 conversations have one annotator, and that label is kept. 30 conversations were labeled by five or six annotators. On that shared set, mean pairwise Cohen's kappa is 0.434, Fleiss' kappa is 0.447, Krippendorff's alpha is 0.427, and pairs chose the same label 56.6% of the time. The label in these files is a reliability-weighted vote. Each annotator's weight is their mean pairwise Cohen's kappa with the others, and the tone with the greatest total weight is the label. That vote assigns one tone to every conversation.
+Six annotators labeled the first batch, and a seventh annotator was added later: 682 labels on 506 conversations. 476 conversations have one annotator, and that label is kept. 30 conversations were labeled by six or seven annotators. On that shared set, mean pairwise Cohen's kappa is 0.437, Fleiss' kappa is 0.443, Krippendorff's alpha is 0.433, and pairs chose the same label 57.2% of the time. The label in these files is a reliability-weighted vote. Each annotator's weight is their mean pairwise Cohen's kappa with the others, and the tone with the greatest total weight is the label. That vote assigns one tone to every conversation.
 
-The labeled data has 436 conversations. `train.csv` has 261, `validation.csv` has 87, and `test.csv` has 88. The split is stratified by tone, so each tone appears in the training file, the validation file, and the test set. Use the validation file to compare models. You can also train on train and validation together. `test.csv` has no labels.
+The labeled data has 506 conversations. `train.csv` has 302, `validation.csv` has 103, and `test.csv` has 101. The split is made tone by tone, so each tone appears in the training file, the validation file, and the test set. Use the validation file to compare models. You can also train on train and validation together. `test.csv` has no labels.
 
-The 88 test conversations are divided evenly between a public leaderboard and a private leaderboard. The public score is visible during the competition. The private score is the final ranking, and it is revealed at the deadline. Every tone appears on both leaderboards.
+The 101 test conversations are divided about evenly between a public leaderboard and a private leaderboard. The public score is visible during the competition. The private score is the final ranking, and it is revealed at the deadline. Every tone appears on both leaderboards.
 
 ### Files
 
 | File | Columns | Rows |
 | --- | --- | --- |
-| `train.csv` | `id`, `conversation`, `last_customer_message`, `label` | 261 |
-| `validation.csv` | `id`, `conversation`, `last_customer_message`, `label` | 87 |
-| `test.csv` | `id`, `conversation`, `last_customer_message` | 88 |
-| `sample_submission.csv` | `id`, `label` | 88 |
+| `train.csv` | `id`, `conversation`, `last_customer_message`, `label` | 302 |
+| `validation.csv` | `id`, `conversation`, `last_customer_message`, `label` | 103 |
+| `test.csv` | `id`, `conversation`, `last_customer_message` | 101 |
+| `sample_submission.csv` | `id`, `label` | 101 |
 
 `id` is the tweet id of the first tweet in the thread. In `sample_submission.csv` the `label` column is filled with the most common tone in `train.csv`, `Frustrated or complaining`. Replace those values with your model's predictions.
 
@@ -72,7 +72,7 @@ F1 = 2 · precision · recall / (precision + recall)
 
 Macro F1 is the unweighted average of the five tone F1 scores. Each tone counts the same.
 
-This matches the label distribution from the annotation analysis. The five tones are imbalanced: Frustrated or complaining is 43.8% of the 436 labeled conversations, and Appreciative or positive is 11.5%. A chi-square test against an equal share per tone gives p < 0.001. Accuracy would follow the largest tone. Macro F1 gives the four smaller tones the same weight as Frustrated or complaining.
+This matches the label distribution from the annotation analysis. The five tones are imbalanced: Frustrated or complaining is 42.9% of the 506 labeled conversations, and Appreciative or positive and Escalatory or requesting immediate resolution are 11.3% each. A chi-square test against an equal share per tone gives p < 0.001. Accuracy would follow the largest tone. Macro F1 gives the four smaller tones the same weight as Frustrated or complaining.
 
 The `label` values in the submission have to match the five tone names exactly, including capitalization.
 
@@ -122,15 +122,17 @@ Leave `competition/private/` off the Data tab. That folder is gitignored, and so
 
 Before launching, submit `competition/private/perfect_submission.csv` and expect a score of 1 on both leaderboards. Then submit `sample_submission.csv`. The scores to expect are written in `competition/private/score_check.txt` when the script runs. Showing three decimal places on the leaderboard is enough.
 
-Per-class counts, including both leaderboard halves, are in `competition/private/split_summary.csv`. The smallest tone has 5 conversations on each leaderboard.
+Per-class counts, including both leaderboard halves, are in `competition/private/split_summary.csv`. Every tone has at least 5 conversations on each leaderboard.
 
-The two conversations majority vote leaves tied, `1003675` and `1257160`, both landed in `validation.csv`, so `solution.csv` does not depend on how they are resolved. The weighted labels are the ones in the files. Do not rebuild the split after launch: the split is stratified by label, so any label change produces a different test set.
+Majority vote leaves two ties. `233771` is in `validation.csv`. `1100995` is a private test row, labeled Escalatory by the weighted vote (1.318 against 1.268 for Frustrated), so that one row of `solution.csv` depends on the tie-break. The weighted labels are the ones in the files. The split is frozen in `competition/split_assignments.csv`, so rerunning the script never moves a conversation. Still do not change labels after launch, because the answer key would change.
+
+Before launch, make the GitHub repository private. Commit `a58481e`, on the public `origin/phase2a`, contains `outputs/ground_truth_weighted_vote.csv` and the raw annotations, which hold the labels of 88 of the 101 test conversations.
 
 After the perfect-score check, submit these two files and mark each as a Benchmark:
 
 | Benchmark | File | Public macro F1 | Private macro F1 |
 | --- | --- | ---: | ---: |
-| Random dummy | `competition/submissions/dummy_baseline.csv` | 0.181 | 0.139 |
-| Logistic regression | `competition/submissions/logistic_regression.csv` | 0.339 | 0.377 |
+| Random dummy | `competition/submissions/dummy_baseline.csv` | 0.266 | 0.148 |
+| Logistic regression | `competition/submissions/logistic_regression.csv` | 0.398 | 0.463 |
 
-The random file is the dummy that won on validation. `majority_baseline.csv` is there for comparison and is the same as `sample_submission.csv`. The LLM baseline covers 50 test items, so it stays off the leaderboard. Its score is in `baselines/llm_scores.csv`.
+The random file is the dummy that won on validation (seed 3). `majority_baseline.csv` is there for comparison and is the same as `sample_submission.csv`. The GPT-5 baseline (macro F1 0.441) covers 50 of the 101 test conversations, so it is not uploaded as a Benchmark.

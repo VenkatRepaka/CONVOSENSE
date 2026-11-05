@@ -6,31 +6,32 @@
 
 ## On the slide
 
-- Table of tones by split: Train 261, Validation 87, Test 88, Public 44, Private 44
+- Table of tones by split: Train 302, Validation 103, Test 101, Public 50, Private 51
 - Files: `train.csv`, `validation.csv`, `test.csv`, `sample_submission.csv`
 - `solution.csv` is only the hidden answer key
 
 ## What to say
 
-> We split the data 60/20/20, stratified by tone, so every tone appears everywhere. The test set is split again in half into public and private leaderboards, and even the smallest tone has five examples on each one. You get a training file and a separate validation file to compare models, and the test file has no labels. The answer key is uploaded only to Kaggle.
+> We split the data about 60/20/20 by tone, so every tone appears everywhere. The test set is split again in half into public and private leaderboards, and even the smallest tone has at least five examples on each one. You get a training file and a separate validation file to compare models, and the test file has no labels. The answer key is uploaded only to Kaggle.
 
 ## Key facts
 
 | Tone | Train | Validation | Test | Public | Private |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Appreciative | 30 | 10 | 10 | 5 | 5 |
-| Neutral | 32 | 11 | 11 | 6 | 5 |
-| Help-seeking | 52 | 17 | 17 | 8 | 9 |
-| Frustrated | 114 | 38 | 39 | 20 | 19 |
-| Escalatory | 33 | 11 | 11 | 5 | 6 |
-| **Total** | **261** | **87** | **88** | **44** | **44** |
+| Appreciative | 34 | 12 | 11 | 6 | 5 |
+| Neutral | 48 | 17 | 16 | 8 | 8 |
+| Help-seeking | 56 | 19 | 19 | 9 | 10 |
+| Frustrated | 130 | 44 | 43 | 21 | 22 |
+| Escalatory | 34 | 11 | 12 | 6 | 6 |
+| **Total** | **302** | **103** | **101** | **50** | **51** |
 
-- Split with scikit-learn `train_test_split`, seed 42
+- The split is frozen in `competition/split_assignments.csv` (ids only). The 436 six-annotator conversations kept their part, and annotator 7's 70 new conversations were split tone by tone, seed 42. So no conversation whose label was already published for training moved into test.
+- Public/Private: scikit-learn `train_test_split`, stratified, seed 42
 - Columns in `train.csv` and `validation.csv`: `id`, `conversation`, `last_customer_message`, `label`. `test.csv` has no `label`.
 
 ## If asked
 
 - **Can we train on validation too?** Yes. Our logistic regression benchmark was refit on train plus validation.
-- **Is the test set big enough?** It is small (88 items), which is why each leaderboard half is stratified. Expect some noise between public and private scores.
+- **Is the test set big enough?** It is small (101 items), which is why each leaderboard half is stratified. Expect some noise between public and private scores.
 
 [Previous](slide_07_label_distribution.md) | [Next](slide_09_how_it_works.md)

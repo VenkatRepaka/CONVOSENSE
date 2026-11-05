@@ -1,0 +1,5 @@
+model,split,macro_f1
+majority,llm_sample_50,0.11830985915492957
+random,llm_sample_50,0.14246031746031745
+logistic_regression,llm_sample_50,0.3002422723475355
+llm_zero_shot,llm_sample_50,0.44131142335476703

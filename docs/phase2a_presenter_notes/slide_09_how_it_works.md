@@ -20,7 +20,7 @@
 ## Key facts
 
 - Macro F1 = the unweighted mean of the five per-tone F1 scores, where F1 = 2 · precision · recall / (precision + recall).
-- Our perfect submission scores 1.0 on both leaderboards. The sample submission scores 0.125 public and 0.121 private.
+- Our perfect submission scores 1.0 on both leaderboards. The sample submission scores 0.118 public and 0.121 private.
 - Data license: CC BY-NC-SA 4.0, for ARI 410/510 only.
 - Set your Kaggle team name to include your project team's name.
 
