@@ -1,7 +1,7 @@
 model,split,label,f1
-llm_zero_shot,llm_sample_50,macro,0.44131142335476703
+llm_zero_shot,llm_sample_50,macro,0.4471937762959435
 llm_zero_shot,llm_sample_50,Appreciative or positive,0.6666666666666666
 llm_zero_shot,llm_sample_50,Neutral or informational,0.23529411764705882
 llm_zero_shot,llm_sample_50,Help-seeking or asking a question,0.3076923076923077
-llm_zero_shot,llm_sample_50,Frustrated or complaining,0.5263157894736842
-llm_zero_shot,llm_sample_50,Escalatory or requesting immediate resolution,0.47058823529411764
+llm_zero_shot,llm_sample_50,Frustrated or complaining,0.5
+llm_zero_shot,llm_sample_50,Escalatory or requesting immediate resolution,0.5263157894736842

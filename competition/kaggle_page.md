@@ -4,19 +4,24 @@ Text below the horizontal rules is what to paste into Kaggle. The host checklist
 
 Files to upload on the **Data** tab (participants download these):
 
-- `competition/participant/train.csv` — 302 conversations, with labels
-- `competition/participant/validation.csv` — 103 conversations, with labels
-- `competition/participant/test.csv` — 101 conversations, inputs only
-- `competition/participant/sample_submission.csv` — submission template
+- `competition/kaggle_upload/train.csv` — 302 conversations, with labels
+- `competition/kaggle_upload/validation.csv` — 103 conversations, with labels
+- `competition/kaggle_upload/test.csv` — 101 conversations, inputs only
+- `competition/kaggle_upload/sample_submission.csv` — submission template
+- `competition/kaggle_upload/label_map.csv` — which tone each label number means
+
+Kaggle rejected tone names as labels, so every file in `competition/kaggle_upload/` uses the numbers 1 to 5. The files in `competition/participant/` are the same data with tone names, for our own scripts. Do not upload those.
 
 Answer key, uploaded only in Kaggle's solution slot:
 
-- `competition/private/solution.csv`
+- `competition/private/kaggle_upload/solution.csv`
 
 Regenerate everything from the repository root with:
 
 ```bash
 python src/competition/prepare_competition_files.py
+python src/baselines/train_baselines.py
+python src/competition/make_kaggle_numeric_files.py
 ```
 
 Labels are the reliability-weighted vote in `outputs/ground_truth_weighted_vote.csv`. That vote assigns a tone to all 506 annotated conversations. The split is about 60% train, 20% validation, 20% test, by tone, and frozen in `competition/split_assignments.csv`: conversations already split keep their part, and only newly labeled ones are split. The test rows are split about evenly into the public and private leaderboards, stratified by tone.
@@ -37,7 +42,7 @@ Predict the customer's tone in the last customer message of a Twitter support co
 
 Each row is one conversation. Turns are in time order, separated by ` | `. A turn is `[customer] - ...` or `[agent] - ...`. @mentions are removed, links are `[link]`, and images are `[image]`. `last_customer_message` is the last customer turn, or the last run of customer turns. That message is what the label describes.
 
-Every conversation has one of these five tones:
+Every conversation has one of these five tones. The `label` column holds the number:
 
 1. Appreciative or positive — gratitude, satisfaction, or praise.
 2. Neutral or informational — facts or answers, with no visible emotion, question, or demand.
@@ -60,7 +65,7 @@ The 101 test conversations are divided about evenly between a public leaderboard
 | `test.csv` | `id`, `conversation`, `last_customer_message` | 101 |
 | `sample_submission.csv` | `id`, `label` | 101 |
 
-`id` is the tweet id of the first tweet in the thread. In `sample_submission.csv` the `label` column is filled with the most common tone in `train.csv`, `Frustrated or complaining`. Replace those values with your model's predictions.
+`id` is the tweet id of the first tweet in the thread. `label` is a number from 1 to 5, listed above and in `label_map.csv`. In `sample_submission.csv` the `label` column is filled with the most common tone in `train.csv`, 4 (Frustrated or complaining). Replace those values with your model's predictions.
 
 ## Evaluation
 
@@ -74,7 +79,7 @@ Macro F1 is the unweighted average of the five tone F1 scores. Each tone counts 
 
 This matches the label distribution from the annotation analysis. The five tones are imbalanced: Frustrated or complaining is 42.9% of the 506 labeled conversations, and Appreciative or positive and Escalatory or requesting immediate resolution are 11.3% each. A chi-square test against an equal share per tone gives p < 0.001. Accuracy would follow the largest tone. Macro F1 gives the four smaller tones the same weight as Frustrated or complaining.
 
-The `label` values in the submission have to match the five tone names exactly, including capitalization.
+The `label` values in the submission have to be whole numbers from 1 to 5.
 
 ## Submission file
 
@@ -82,8 +87,8 @@ The `label` values in the submission have to match the five tone names exactly, 
 
 ```text
 id,label
-123,Frustrated or complaining
-456,Help-seeking or asking a question
+123,4
+456,3
 ```
 
 ## Rules
@@ -106,21 +111,22 @@ Keep this section off the public page, Discord, and the participant Data tab. Th
 
 Competition type: Machine Learning competition (Prediction). Visibility: Private, invitation link only. Set the end to the Phase 2b deadline on Canvas, then confirm the clock. Kaggle displays times in UTC.
 
-Evaluation metric: macro F1. If the metric list has a macro F1 / mean F-score, choose it, set beta to 1, and point the target column at `label`. If the page asks for a metric file, paste `src/competition/macro_f1.py`. Kaggle calls `score(solution, submission, row_id_column_name)`. The id column in every file is `id`. The answer column is `label`. The leaderboard column in `solution.csv` is `Usage`, with values `Public` and `Private`.
+Evaluation metric: macro F1. If the metric list has a macro F1 / mean F-score, choose it, set beta to 1, and point the target column at `label`. If the page asks for a metric file, paste `src/competition/macro_f1.py`, which accepts the numbers 1 to 5. Kaggle calls `score(solution, submission, row_id_column_name)`. The id column in every file is `id`. The answer column is `label`. The leaderboard column in `solution.csv` is `Usage`, with values `Public` and `Private`.
 
 Upload map:
 
 | Kaggle slot | Local file |
 | --- | --- |
-| Data tab | `competition/participant/train.csv` |
-| Data tab | `competition/participant/validation.csv` |
-| Data tab | `competition/participant/test.csv` |
-| Data tab, and the sample-submission slot | `competition/participant/sample_submission.csv` |
-| Solution / answer key only | `competition/private/solution.csv` |
+| Data tab | `competition/kaggle_upload/train.csv` |
+| Data tab | `competition/kaggle_upload/validation.csv` |
+| Data tab | `competition/kaggle_upload/test.csv` |
+| Data tab | `competition/kaggle_upload/label_map.csv` |
+| Data tab, and the sample-submission slot | `competition/kaggle_upload/sample_submission.csv` |
+| Solution / answer key only | `competition/private/kaggle_upload/solution.csv` |
 
 Leave `competition/private/` off the Data tab. That folder is gitignored, and so are the raw annotations and the per-conversation ground-truth CSVs in `outputs/`, because they contain the test labels too.
 
-Before launching, submit `competition/private/perfect_submission.csv` and expect a score of 1 on both leaderboards. Then submit `sample_submission.csv`. The scores to expect are written in `competition/private/score_check.txt` when the script runs. Showing three decimal places on the leaderboard is enough.
+Before launching, submit `competition/private/kaggle_upload/perfect_submission.csv` and expect a score of 1 on both leaderboards. Then submit `competition/kaggle_upload/sample_submission.csv` and expect 0.118 public and 0.121 private (also in `competition/private/score_check.txt`). Showing three decimal places on the leaderboard is enough.
 
 Per-class counts, including both leaderboard halves, are in `competition/private/split_summary.csv`. Every tone has at least 5 conversations on each leaderboard.
 
@@ -132,7 +138,7 @@ After the perfect-score check, submit these two files and mark each as a Benchma
 
 | Benchmark | File | Public macro F1 | Private macro F1 |
 | --- | --- | ---: | ---: |
-| Random dummy | `competition/submissions/dummy_baseline.csv` | 0.266 | 0.148 |
-| Logistic regression | `competition/submissions/logistic_regression.csv` | 0.398 | 0.463 |
+| Random dummy | `competition/kaggle_upload/benchmarks/dummy_baseline.csv` | 0.266 | 0.148 |
+| Logistic regression | `competition/kaggle_upload/benchmarks/logistic_regression.csv` | 0.398 | 0.463 |
 
-The random file is the dummy that won on validation (seed 3). `majority_baseline.csv` is there for comparison and is the same as `sample_submission.csv`. The GPT-5 baseline (macro F1 0.441) covers 50 of the 101 test conversations, so it is not uploaded as a Benchmark.
+The random file is the dummy that won on validation (seed 3). `majority_baseline.csv` is there for comparison and is the same as `sample_submission.csv`. The GPT-5 baseline (macro F1 0.447) covers 50 of the 101 test conversations, so it is not uploaded as a Benchmark.

@@ -27,7 +27,7 @@
 
 - The split is frozen in `competition/split_assignments.csv` (ids only). The 436 six-annotator conversations kept their part, and annotator 7's 70 new conversations were split tone by tone, seed 42. So no conversation whose label was already published for training moved into test.
 - Public/Private: scikit-learn `train_test_split`, stratified, seed 42
-- Columns in `train.csv` and `validation.csv`: `id`, `conversation`, `last_customer_message`, `label`. `test.csv` has no `label`.
+- Columns in `train.csv` and `validation.csv`: `id`, `conversation`, `last_customer_message`, `label`. `test.csv` has no `label`. On Kaggle, `label` is the tone number 1 to 5, and `label_map.csv` gives the names.
 
 ## If asked
 

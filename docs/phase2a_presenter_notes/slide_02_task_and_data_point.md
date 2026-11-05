@@ -19,7 +19,7 @@
 ## Key facts
 
 - Source: Customer Support on Twitter (Kaggle), AmazonHelp conversations only
-- Each row has `id`, `conversation`, `last_customer_message` and `label`
+- Each row has `id`, `conversation`, `last_customer_message` and `label`. On Kaggle the label is a number, so this row is labeled 4 (Frustrated or complaining)
 - When a message shows more than one tone, the order of precedence is Escalatory, Frustrated, Help-seeking, Appreciative, Neutral
 
 ## If asked

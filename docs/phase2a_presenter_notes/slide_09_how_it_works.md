@@ -6,14 +6,14 @@
 
 ## On the slide
 
-- Submit: one row per test id with `id,label`. Labels must match the five tone names exactly.
+- Submit: one row per test id with `id,label`. The label is the tone number, 1 to 5 (`label_map.csv`).
 - Scored by macro F1
 - Leaderboards and rules
 - An example `sample_submission.csv`
 
 ## What to say
 
-> To submit, upload a CSV with one row per test id: the id and one of the five tone names, spelled exactly. Scoring is macro F1. That's the F1 for each tone, averaged equally, so always guessing Frustrated scores only 0.12.
+> To submit, upload a CSV with one row per test id: the id and the tone's number, 1 to 5. The numbers follow the order of the five tones, and `label_map.csv` lists them. Scoring is macro F1. That's the F1 for each tone, averaged equally, so always guessing Frustrated scores only 0.12.
 >
 > The public leaderboard uses half the test set and is visible now. The private half decides the final ranking at the Phase 2b deadline. Predictions must come from a model, and labeling the test set by hand isn't allowed. The competition is private, and you join with the invite link.
 

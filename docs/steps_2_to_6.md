@@ -6,7 +6,7 @@ Paste text for the public Kaggle page is in `competition/kaggle_page.md`. This f
 
 Every file with a label per conversation is gitignored, because each one covers the test conversations too: `annotation_submissions/`, `annotator_packages_overlap/shared_items.jsonl` (its heuristic `estimated_label`), `outputs/ground_truth_majority_vote.csv`, `outputs/ground_truth_weighted_vote.csv`, and `outputs/adjudication_disagreements.csv`. They exist only on the team's machines. Share them inside the team privately, never through the repository. The other files in `outputs/` hold counts and scores only and stay in git.
 
-The task label is the primary Potato field `conversation_sense`. Optional `secondary_sense` is not a vote. The annotator id is the submission folder name. Annotators 01–06 use `annotator_01` through `annotator_06`. Annotator 07 submitted only Potato's export, `annotator_07/exports/jsonl/annotations.jsonl`, which the loader reads when there is no top-level file. For annotators 01–06 the loader reads the top-level `annotations.jsonl` and skips Potato's duplicate export.
+The task label is the primary Potato field `conversation_sense`. Optional `secondary_sense` is not a vote. The annotator id is the submission folder name. Annotators 01–06 use `annotator_01` through `annotator_06`. Annotator 07 submitted only Potato's export, `annotator_07/batch_1/annotation_output/exports/jsonl/annotations.jsonl`, which the loader reads when there is no top-level file. An annotator folder with no annotation file stops the run instead of being skipped. For annotators 01–06 the loader reads the top-level `annotations.jsonl` and skips Potato's duplicate export.
 
 Seven annotators submitted 682 labels on 506 conversations. 476 conversations have one annotator. 30 were shared: 26 by all seven annotators, and 4 without `annotator_05` (82 of 100 items from that annotator). Annotator 07 labeled all 30 shared conversations and 70 conversations of their own. On the shared set, 3 conversations are unanimous and 27 are not.
 
@@ -162,7 +162,9 @@ The script is `src/competition/prepare_competition_files.py`.
 
 **Why.** Step 4 found the tones are imbalanced. Frustrated or complaining is 42.9% of the 506 labeled conversations, and Appreciative or positive and Escalatory or requesting immediate resolution are 11.3% each. A chi-square test against an equal share per tone gives p < 0.001. Macro F1 is the unweighted mean of the five per-class F1 scores, so each tone counts the same. Accuracy would follow the largest tone.
 
-A label in a submission has to match one of the five tone strings exactly. On Kaggle, map the id column to `id` and the answer column to `label`. If the metric list has macro F1, select it with beta 1. If the page asks for a metric file, paste `src/competition/macro_f1.py`.
+**Numeric labels on Kaggle.** Kaggle rejected the tone names as labels. `src/competition/make_kaggle_numeric_files.py` writes copies of the files with the numbers 1 to 5 in guideline order (1 Appreciative, 2 Neutral, 3 Help-seeking, 4 Frustrated, 5 Escalatory): `competition/kaggle_upload/` for the Data tab (with `label_map.csv`) and the two Benchmarks, and `competition/private/kaggle_upload/` for the solution and perfect submission. It checks that every file scores the same as its tone-name version. The files in `competition/participant/`, `competition/private/` and `competition/submissions/` keep the tone names, because the baselines and the LLM scorer read them. Upload only the `kaggle_upload` files.
+
+A label in a submission has to be a whole number from 1 to 5. On Kaggle, map the id column to `id` and the answer column to `label`. If the metric list has macro F1, select it with beta 1. If the page asks for a metric file, paste `src/competition/macro_f1.py`, which accepts the numbers 1 to 5 or the tone names.
 
 **Check.** Submitting `perfect_submission.csv` scores 1 on the public and private leaderboards. Submitting `sample_submission.csv` scores 0.118 public and 0.121 private (`competition/private/score_check.txt` records 0.1183 and 0.1205).
 
@@ -229,7 +231,7 @@ Neutral or informational is the weak class: test F1 0.167, with 0 on the public 
 
 ### LLM baseline
 
-**Choice.** GPT-5 in the ChatGPT web interface, zero-shot, on 50 test conversations (`baselines/llm/items.jsonl`, seed 42, drawn from the six-annotator test set). The frozen split keeps all 50 in the current test set, so the same reply was rescored against the seven-annotator labels: macro F1 **0.441**, unchanged because none of the 50 labels changed. The reply is `baselines/llm/raw_responses.jsonl`, converted to `baselines/llm/predictions.csv`. Scores are in `baselines/llm_scores.csv`.
+**Choice.** GPT-5 in the ChatGPT web interface, zero-shot, on 50 test conversations (`baselines/llm/items.jsonl`, seed 42, all in the current test set). A new ChatGPT conversation got `baselines/llm/chat_input.txt`: the prompt in `baselines/llm/prompt.txt` followed by the 50 items, with no labels or examples. Macro F1 **0.447**; accuracy 46% (23 of 50). The reply is `baselines/llm/raw_responses.jsonl`, converted to `baselines/llm/predictions.csv`. Scores are in `baselines/llm_scores.csv`, and the run is described in `baselines/llm/run.json`.
 
 On the same 50 conversations (`baselines/llm_sample_comparison.csv`):
 
@@ -238,7 +240,9 @@ On the same 50 conversations (`baselines/llm_sample_comparison.csv`):
 | Majority | 0.118 |
 | Random, seed 3 | 0.260 |
 | Logistic regression | 0.303 |
-| GPT-5 zero-shot | 0.441 |
+| GPT-5 zero-shot | 0.447 |
+
+GPT-5 per-tone F1: Appreciative 0.667, Escalatory 0.526, Frustrated 0.500, Help-seeking 0.308, Neutral 0.235. It overpredicts Neutral (12 predicted, 5 actual) and Escalatory (12 predicted, 7 actual), and finds only 2 of 10 Help-seeking conversations.
 
 **Why it stays off the leaderboard.** The assignment says an LLM baseline stays off the leaderboard unless every test item is included. 50 of 101 is not.
 
@@ -248,7 +252,8 @@ On the same 50 conversations (`baselines/llm_sample_comparison.csv`):
 MPLCONFIGDIR=/tmp/mplconfig /opt/anaconda3/bin/python src/annotation_analysis/determine_ground_truth.py
 /opt/anaconda3/bin/python src/competition/prepare_competition_files.py
 /opt/anaconda3/bin/python src/baselines/train_baselines.py
+/opt/anaconda3/bin/python src/competition/make_kaggle_numeric_files.py
 /opt/anaconda3/bin/python src/baselines/llm_baseline.py score baselines/llm/predictions.csv
 ```
 
-The first command rewrites `outputs/`: agreement, both ground truths, the disagreement list, and the label-distribution chart. The second keeps the frozen split in `competition/split_assignments.csv`, splits any newly labeled conversations, adds them to that file, and rewrites the competition files. The third refits the dummy and logistic regression baselines and rewrites `baselines/baseline_scores.csv`. Do not rerun `llm_baseline.py write`: it would draw a new 50 from the current test file, and the GPT-5 reply would no longer match. The last command rescores the saved reply against the current answer key.
+The first command rewrites `outputs/`: agreement, both ground truths, the disagreement list, and the label-distribution chart. The second keeps the frozen split in `competition/split_assignments.csv`, splits any newly labeled conversations, adds them to that file, and rewrites the competition files. The third refits the dummy and logistic regression baselines and rewrites `baselines/baseline_scores.csv`. The fourth writes the numeric-label Kaggle upload files. Do not rerun `llm_baseline.py write`: it would draw a new 50 from the current test file, and the GPT-5 reply would no longer match. The last command rescores the saved reply against the current answer key.

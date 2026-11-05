@@ -26,7 +26,9 @@ the JSONL is a display name for some classmates and an id for others.
 Each of annotators 01–06 turned in the same JSONL twice (the file at the
 top of the folder, and Potato's export copy). This loader reads the
 top-level ``annotations.jsonl`` when it is there. Annotator 07 submitted
-only ``annotator_07/exports/jsonl/annotations.jsonl``.
+only Potato's export, now at
+``annotator_07/batch_1/annotation_output/exports/jsonl/annotations.jsonl``.
+A folder with no JSONL in any known place stops the run.
 
 Run from the repository root::
 
@@ -79,9 +81,9 @@ def load_primary_tone_annotations(submissions_dir: Path) -> pd.DataFrame:
     ----------
     submissions_dir:
         Directory of annotator folders. A folder contributes one annotator
-        when it contains ``annotations.jsonl`` or, failing that,
-        ``exports/jsonl/annotations.jsonl``. The annotator id is the folder
-        name.
+        when it contains ``annotations.jsonl`` or one of Potato's export
+        copies (see ``_find_annotation_file``). The annotator id is the
+        folder name.
 
     Returns
     -------
@@ -104,7 +106,8 @@ def load_primary_tone_annotations(submissions_dir: Path) -> pd.DataFrame:
     for annotator_dir in annotator_dirs:
         annotation_file = _find_annotation_file(annotator_dir)
         if annotation_file is None:
-            continue
+            # A moved file would otherwise drop an annotator without notice.
+            raise FileNotFoundError(f"No annotations.jsonl found in {annotator_dir}")
         rows.extend(_read_annotator_file(annotator_dir.name, annotation_file))
 
     if not rows:
@@ -545,11 +548,14 @@ def _find_annotation_file(annotator_dir: Path) -> Path | None:
 
     Annotators 01–06 have ``annotations.jsonl`` at the top of the folder and
     the same bytes under Potato's export path. Annotator 07 submitted only
-    the export path. The first hit is the one that is read.
+    Potato's export, under ``batch_1/annotation_output/``. The first hit is
+    the one that is read.
     """
     for relative in (
         "annotations.jsonl",
         "exports/jsonl/annotations.jsonl",
+        "annotation_output/exports/jsonl/annotations.jsonl",
+        "batch_1/annotation_output/exports/jsonl/annotations.jsonl",
     ):
         path = annotator_dir / relative
         if path.is_file():

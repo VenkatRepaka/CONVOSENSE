@@ -167,7 +167,7 @@ The full-test score is not a number anyone sees on Kaggle. When talking to class
 | **Logistic regression, public leaderboard** | **0.398** |
 | Logistic regression, private leaderboard | 0.463 |
 | Logistic regression, full test | 0.428 |
-| LLM zero-shot, GPT-5 (50 test items; see `docs/steps_2_to_6.md`) | 0.441 |
+| LLM zero-shot, GPT-5 (50 test items; see `docs/steps_2_to_6.md`) | 0.447 |
 
 All of these are scored on test or validation conversations. The annotator result below is on a different set, so it is kept out of this table.
 
@@ -254,13 +254,13 @@ for held_out in shared.columns:
 The assignment says the trained model "does not need to be a strong model; it is a reference point for everyone else." A useful benchmark:
 
 - clearly beats the dummy, which shows the task is learnable (0.398 vs. 0.266 on the public leaderboard; 0.463 vs. 0.148 on the private one), and
-- leaves visible room for other teams. On the same 50 test conversations, GPT-5 zero-shot scores 0.44 and logistic regression scores 0.30, so a stronger model already does better.
+- leaves visible room for other teams. On the same 50 test conversations, GPT-5 zero-shot scores 0.45 and logistic regression scores 0.30, so a stronger model already does better.
 
 A very strong baseline would discourage submissions. The slide 12 pitch, "Beat the 0.398 Benchmark", relies on that headroom.
 
 Suggested wording for the talk:
 
-> Our logistic regression benchmark scores 0.398 macro F1 on the public leaderboard, against 0.266 for the random dummy. The final ranking uses the private leaderboard, where it scores 0.463. The labels are subjective: on our 30 shared conversations, annotators averaged 0.498 against each other's consensus. On the same 50 test conversations, GPT-5 zero-shot already beats logistic regression, 0.44 to 0.30, so there's room for better models.
+> Our logistic regression benchmark scores 0.398 macro F1 on the public leaderboard, against 0.266 for the random dummy. The final ranking uses the private leaderboard, where it scores 0.463. The labels are subjective: on our 30 shared conversations, annotators averaged 0.498 against each other's consensus. On the same 50 test conversations, GPT-5 zero-shot already beats logistic regression, 0.45 to 0.30, so there's room for better models.
 
 ## 10. Checks the script runs
 

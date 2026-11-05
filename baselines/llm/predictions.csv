@@ -15,7 +15,7 @@ id,label
 786151,Frustrated or complaining
 916614,Neutral or informational
 972289,Frustrated or complaining
-977894,Frustrated or complaining
+977894,Escalatory or requesting immediate resolution
 982997,Neutral or informational
 1022880,Escalatory or requesting immediate resolution
 1122270,Frustrated or complaining
@@ -36,7 +36,7 @@ id,label
 1733168,Help-seeking or asking a question
 1820145,Help-seeking or asking a question
 1832072,Appreciative or positive
-2105751,Frustrated or complaining
+2105751,Escalatory or requesting immediate resolution
 2142264,Escalatory or requesting immediate resolution
 2265443,Frustrated or complaining
 2279314,Appreciative or positive

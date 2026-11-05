@@ -13,7 +13,7 @@
 
 ## What to say
 
-> Our logistic regression benchmark scores 0.398 on the public leaderboard, and there's lots of room above it: GPT-5 zero-shot reached 0.44 on half the test set. The final ranking is on the private leaderboard, where the same benchmark scores 0.463. You get 405 labeled conversations, five subtle tones, and sarcasm that only makes sense in context. The open challenge is the Neutral class, where our baseline scores 0.17. Can your model find those customers? The invite link is in #project-competitions on Discord. Thank you!
+> Our logistic regression benchmark scores 0.398 on the public leaderboard, and there's lots of room above it: GPT-5 zero-shot reached 0.45 on half the test set. The final ranking is on the private leaderboard, where the same benchmark scores 0.463. You get 405 labeled conversations, five subtle tones, and sarcasm that only makes sense in context. The open challenge is the Neutral class, where our baseline scores 0.17. Can your model find those customers? The invite link is in #project-competitions on Discord. Thank you!
 
 ## Key facts
 
