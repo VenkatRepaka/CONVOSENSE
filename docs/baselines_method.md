@@ -35,9 +35,7 @@ Public and private scores use the rows of `solution.csv` marked `Usage = Public`
 
 ## 4. Majority baseline
 
-**How:** find the most common tone in `train.csv` and predict it for every row. That tone is Frustrated or complaining, with 130 of 302 training rows. If two tones were tied, the code would pick the one that comes first in the guideline order. That didn't happen.
-
-The code writes the constant label directly. This gives the same output as `sklearn.dummy.DummyClassifier(strategy="most_frequent")`, which is the name used in the notes column of `baselines/baseline_scores.csv`.
+**How:** `sklearn.dummy.DummyClassifier(strategy="most_frequent")`, fit on the `train.csv` labels, predicts the most common tone for every row. That tone is Frustrated or complaining, with 130 of 302 training rows. If two tones were tied, sklearn would pick the one that comes first alphabetically. That didn't happen.
 
 **Why it scores so low:** it gets every Frustrated row right and every other row wrong.
 
@@ -294,13 +292,13 @@ Code locations in `src/baselines/train_baselines.py`:
 
 | Function | Line | Role |
 | --- | ---: | --- |
-| `_majority_label` | 211 | Most common training tone |
-| `_random_labels` | 222 | Uniform `DummyClassifier` for one seed |
-| `_random_scores_by_seed` | 230 | Scores seeds 0–19 |
-| `_representative_random_seed` | 255 | Seed closest to the validation mean |
-| `_choose_dummy` | 267 | Majority vs. random on validation |
-| `_search_logistic_regression` | 283 | Six-setting grid on validation |
-| `_fit_logistic_regression` | 318 | TF-IDF + logistic regression pipeline |
-| `_macro_f1` | 405 | Calls the competition scorer |
+| `_majority_labels` | 211 | Most-frequent `DummyClassifier` |
+| `_random_labels` | 219 | Uniform `DummyClassifier` for one seed |
+| `_random_scores_by_seed` | 227 | Scores seeds 0–19 |
+| `_representative_random_seed` | 252 | Seed closest to the validation mean |
+| `_choose_dummy` | 264 | Majority vs. random on validation |
+| `_search_logistic_regression` | 280 | Six-setting grid on validation |
+| `_fit_logistic_regression` | 315 | TF-IDF + logistic regression pipeline |
+| `_macro_f1` | 402 | Calls the competition scorer |
 
 See also `docs/steps_2_to_6.md` (step 6) and the slide 10 presenter notes in `docs/phase2a_presenter_notes/`.

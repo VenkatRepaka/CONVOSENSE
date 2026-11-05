@@ -67,9 +67,9 @@ def main(argv: list[str] | None = None) -> None:
     solution = _read_split(args.private_dir / "solution.csv")
     _check_solution_covers_test(solution, test)
 
-    majority_label = _majority_label(train[LABEL_COLUMN])
-    majority_test = _constant_labels(test[ID_COLUMN], majority_label)
-    majority_validation = _constant_labels(validation[ID_COLUMN], majority_label)
+    majority_test = _majority_labels(train[LABEL_COLUMN], test[ID_COLUMN])
+    majority_validation = _majority_labels(train[LABEL_COLUMN], validation[ID_COLUMN])
+    majority_label = str(majority_test[LABEL_COLUMN].iloc[0])
     random_by_seed = _random_scores_by_seed(train, validation, test, solution)
     random_seed = _representative_random_seed(random_by_seed)
     random_test = _random_labels(train[LABEL_COLUMN], test[ID_COLUMN], random_seed)
@@ -208,15 +208,12 @@ def _check_solution_covers_test(solution: pd.DataFrame, test: pd.DataFrame) -> N
         raise ValueError("solution.csv needs label and Usage columns.")
 
 
-def _majority_label(labels: pd.Series) -> str:
-    counts = labels.value_counts()
-    top = int(counts.max())
-    tied = [label for label in TONE_LABELS if int(counts.get(label, 0)) == top]
-    return tied[0]
-
-
-def _constant_labels(ids: pd.Series, label: str) -> pd.DataFrame:
-    return pd.DataFrame({ID_COLUMN: ids.to_numpy(), LABEL_COLUMN: label})
+def _majority_labels(train_labels: pd.Series, ids: pd.Series) -> pd.DataFrame:
+    classifier = DummyClassifier(strategy="most_frequent")
+    features = np.zeros((len(train_labels), 1))
+    classifier.fit(features, train_labels.to_numpy())
+    predicted = classifier.predict(np.zeros((len(ids), 1)))
+    return pd.DataFrame({ID_COLUMN: ids.to_numpy(), LABEL_COLUMN: predicted})
 
 
 def _random_labels(train_labels: pd.Series, ids: pd.Series, seed: int) -> pd.DataFrame:

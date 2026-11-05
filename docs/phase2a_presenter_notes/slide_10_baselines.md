@@ -7,12 +7,14 @@
 ## On the slide
 
 - Macro F1 on validation, public and private for Majority, Random (dummy) and Logistic regression
-- Dummy: uniform random
+- Dummy: uniform random, low by design (no-learning floor)
 - Trained: TF-IDF + logistic regression
 - Hardest tone: Neutral, test F1 0.17
 
 ## What to say
 
+> These dummy scores are low on purpose. Neither one reads the text, so they show what you get with no learning at all, the floor any real model has to beat.
+>
 > We compared two dummy baselines. Always predicting the majority tone scores 0.12, because it gets zero on four of the five tones. Random guessing scores 0.19 on validation, so the random one is our dummy benchmark.
 >
 > The trained baseline is TF-IDF on words and word pairs with logistic regression, using balanced class weights. It scores 0.398 public and 0.463 private, compared with 0.266 public and 0.148 private for the random dummy. Neutral is the hardest tone: on the full test set its F1 is only 0.17.
@@ -35,6 +37,7 @@ Logistic regression per-tone F1 on the full test set:
 | Frustrated or complaining | 0.553 |
 | Escalatory or requesting immediate resolution | 0.414 |
 
+- **Why the dummies are low:** macro F1 averages the five tones equally. Majority gets F1 = 0.597 on Frustrated and 0 on the other four, so 0.597 / 5 = 0.119. Random gets a little of each tone right, so it lands near 1/5 = 0.2. With 5 tones, a constant prediction can never score above 0.2.
 - Settings were chosen on validation only: C = 0.25, `class_weight="balanced"`. The submitted model was then refit on train plus validation.
 - The random seed (3) was the one whose validation score was closest to the 20-seed mean (0.196). It was not picked using test scores.
 
